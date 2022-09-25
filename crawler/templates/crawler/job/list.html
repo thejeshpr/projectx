@@ -18,8 +18,8 @@
         <tbody>
             {% for job in jobs %}
                 <tr>
-                    <td><code>{{ job.id }}::{{ job.site_conf.name }}</code></td>
-                    <td>{% include './status.html' %}</td>
+                    <td><code style="color: green;">{{ job.id }}::{{ job.site_conf.name }}</code></td>
+                    <td>{% include './status.html' %} <code>{% if job.elapsed_time %}<span>{{ job.elapsed_time }}s</span>{% else %}<span>...</span>{% endif %}</code></td>
                 </tr>
             {% endfor %}
         </tbody>

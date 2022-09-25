@@ -7,16 +7,8 @@ import django
 import uuid
 import logging
 
-
-# Scraper section
-###########################
-# from .gh_trending import scrape as GH_Trending_Scrapper
-# from .bkdko import scrape as BKDKO_Scrapper
-
-# from crawler_backend import gh_trending
-#############################
-
-logging.basicConfig(filename='scraper.log', format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
+logging.basicConfig(filename='scraper.log', format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s',
+                    datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 sys.path.append(r"C:\Users\tpr\PycharmProjects\projectx")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
@@ -37,12 +29,13 @@ def main():
     logging.debug(f"JOB ID: {args.job_id}")
 
     logging.debug(f"Invoking Base Parser")
-    obj = BaseParser(args.job_id)
+    _ = BaseParser(args.job_id)
 
 
 class BaseParser():
     def __init__(self, job_id):
         self.job: Job = Job.objects.get(pk=job_id)
+        self.job_start_time = time.time()
         self.site_conf: SiteConf = SiteConf.objects.get(pk=self.job.site_conf.pk)
         logging.debug(f"SiteConf: {self.site_conf.name}")
 
@@ -74,6 +67,11 @@ class BaseParser():
     def build_task_unique_key(self, unique_key):
         logging.debug(f"building unique_key: {unique_key}")
         return f"{self.site_conf.name}::{unique_key}"
+
+    def update_elapsed_time(self):
+        elapsed_time = time.time() - self.job_start_time
+        self.job.elapsed_time = elapsed_time
+        self.job.save()
 
     @staticmethod
     def is_task_exist(unique_key):
@@ -124,6 +122,7 @@ class BaseParser():
             self.job.save()
             logging.error(str(e))
         finally:
+            self.update_elapsed_time()
             self.unlock_site_conf()
 
     @staticmethod

@@ -3,6 +3,8 @@ from .bkdko import scrape as BKDKO_Scraper
 from .crdko import scrape as CRDKO_Scraper
 from .mm import scrape as MM_Scraper
 from .d2 import scrape as D2_Scraper
+from .rdt import scrape as RDT_Scraper
+
 
 def get_scrapper(name):
     scrapers = dict(
@@ -11,6 +13,7 @@ def get_scrapper(name):
         crdko=CRDKO_Scraper,
         mm=MM_Scraper,
         d2=D2_Scraper,
+        rdt=RDT_Scraper,
     )
     if name in scrapers.keys():
         return scrapers.get(name)

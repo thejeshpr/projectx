@@ -39,6 +39,7 @@ class Job(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     error = models.TextField(blank=True, null=True)
+    elapsed_time = models.IntegerField(blank=True, null=True)
     site_conf = models.ForeignKey('SiteConf', on_delete=models.CASCADE, related_name='jobs')
     status = models.CharField(max_length=20, choices=JOB_STATUS, default="NEW")
 
