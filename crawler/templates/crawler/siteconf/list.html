@@ -1,0 +1,26 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>List of Site Configurations</h6>
+    </div>
+
+    {% for site_conf in site_confs %}
+
+    <div class="card">
+      <div class="card-body">
+        <a href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><h5 class="card-title">{{ site_conf.name }}</h5></a>
+        <p><strong>Grabber:</strong> {{ site_conf.scraper_name }}</p>
+        <p><strong>Enabled:</strong> {{ site_conf.enabled }}</p>
+        <p><strong>Is Locked:</strong> {{ site_conf.is_locked }}</p>
+        <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>
+        <p><strong>Jobs:</strong> {{ site_conf.jobs.count }}</p>
+        <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p>
+      </div>
+    </div>
+    <br/>
+    {% endfor %}
+
+{% endblock %}

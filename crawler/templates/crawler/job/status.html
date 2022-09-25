@@ -1,0 +1,9 @@
+{% if job.status == "SUCCESS" %}
+    <span class="badge bg-success">success: {{ job.tasks.count }}</span>
+{% elif job.status == "NO-TASK" %}
+    <span class="badge bg-secondary">no-task</span>
+{% elif job.status == "ERROR" %}
+    <span class="badge bg-danger">error</span>
+{% elif job.status == "RUNNING" %}
+    <span class="badge bg-primary">running</span>
+{% endif %}

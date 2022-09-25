@@ -1,0 +1,29 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>List of Site Tasks</h6>
+    </div>
+
+    <div class="card">
+      <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td><code>{{ job.id }}::{{ job.site_conf.name }}</code></td>
+                    <td>{% include './status.html' %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock %}

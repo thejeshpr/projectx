@@ -1,0 +1,25 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>List of Tasks</h6>
+    </div>
+
+    {% for task in tasks %}
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ task.id }} :: {{ task.name }}</h5>
+        <p><strong>Unique Key:</strong> {{ task.unique_key }}</p>
+        <p><strong>URL:</strong> {{ task.url }}</p>
+          {% if task.data %}
+            <code>{{ task.data }}</code>
+          {% endif %}
+      </div>
+    </div>
+    <br/>
+    {% endfor %}
+
+{% endblock %}
