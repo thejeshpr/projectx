@@ -1,3 +1,4 @@
+from django.db.models import Prefetch, Count, Aggregate
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
@@ -36,6 +37,13 @@ class SiteConfListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # jobs_dict = dict()
+        # for sc in context["site_confs"]:
+        #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
+        # print(jobs_dict)
+
+
         return context
 
 

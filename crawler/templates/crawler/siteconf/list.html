@@ -17,7 +17,7 @@
         <p><strong>Is Locked:</strong> {{ site_conf.is_locked }}</p>
         <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>
         <p><strong>Jobs:</strong> {{ site_conf.jobs.count }}</p>
-        <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p>
+        <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p> {{ site_conf.jobs.all.last.pk }}
           <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">sync</a>
       </div>
     </div>
