@@ -6,4 +6,6 @@
     <span class="badge bg-danger">error</span>
 {% elif job.status == "RUNNING" %}
     <span class="badge bg-primary">running</span>
+{% elif job.status == "NEW" %}
+    <span class="badge bg-dark">preparing</span>
 {% endif %}

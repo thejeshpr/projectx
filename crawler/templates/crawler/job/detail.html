@@ -1,0 +1,34 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>Details</h6>
+        {{ job.pk }}::{{ job.site_conf.name }}
+        <p><strong>status:</strong> {% include './status.html' %}</p>
+        <p><code>{% if job.elapsed_time %}<span>{{ job.elapsed_time }}s</span>{% else %}<span>...</span>{% endif %}</code></p>
+        {% if job.error %}
+        <code>{{ job.error }}</code>
+        {% endif %}
+       <hr/>
+
+        {% for task in job.tasks.all %}
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ task.id }} :: {{ task.name }}</h5>
+            <p><strong>Unique Key:</strong> {{ task.unique_key }}</p>
+            <p><strong>URL:</strong> {{ task.url }}</p>
+              {% if task.data %}
+                <code>{{ task.data }}</code>
+              {% endif %}
+          </div>
+        </div>
+        <br/>
+        {% endfor %}
+
+    </div>
+
+
+{% endblock %}

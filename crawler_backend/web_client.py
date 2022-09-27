@@ -16,11 +16,13 @@ class WebClient:
     @staticmethod
     def check_status_code(res):
         if res.status_code not in [200]:
-            raise InvalidStatusCode(f"Invalid status code: {res.status_code}\n{res.content}")
+            logging.error(f"invalid status code: {res.status_code}\n{res.content}")
+            raise Exception(f"Invalid status code: {res.status_code}\n{res.content}")
 
     @staticmethod
     def get(url):
         session = HTMLSession()
+        logging.debug(f"connecting to {url}")
         res = session.get(url)
         WebClient.check_status_code(res)
         return res

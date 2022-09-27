@@ -13,6 +13,7 @@ urlpatterns = [
     path('config-value/<pk>', views.ConfigValuesDetailView.as_view(), name='config-value-detail'),
 
     path('job/', views.JobListView.as_view(), name='job-list'),
+    path('job/<pk>', views.JobDetailView.as_view(), name='job-detail'),
 
     path('task/', views.TaskListView.as_view(), name='task-list'),
 

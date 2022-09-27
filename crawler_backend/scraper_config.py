@@ -4,6 +4,7 @@ from .crdko import scrape as CRDKO_Scraper
 from .mm import scrape as MM_Scraper
 from .d2 import scrape as D2_Scraper
 from .rdt import scrape as RDT_Scraper
+from .spny import scrape as SNPY_Scraper
 
 
 def get_scrapper(name):
@@ -14,6 +15,7 @@ def get_scrapper(name):
         mm=MM_Scraper,
         d2=D2_Scraper,
         rdt=RDT_Scraper,
+        spny=SNPY_Scraper,
     )
     if name in scrapers.keys():
         return scrapers.get(name)

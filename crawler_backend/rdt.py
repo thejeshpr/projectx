@@ -12,7 +12,6 @@ def scrape(obj: BaseParser):
     logging.debug(f"status code:{res.status_code}")
     logging.debug(f"response: {res.content}")
 
-    tasks = []
     found_links = dict()
 
     for p in res.html.find(".top-matter")[::-1]:
@@ -26,13 +25,8 @@ def scrape(obj: BaseParser):
                     comment_link = comment.attrs.get('href')
                     comment_link = comment_link.replace("old.reddit.com", "www.reddit.com")
                     found_links[a.text.strip()] = comment_link
-                    tasks.append(
-                        dict(
-                            name=a.text.strip(),
-                            url=comment_link,
-                            unique_key=comment_link
-                        )
+                    obj.create_task(
+                        unique_key=comment_link,
+                        name=a.text.strip(),
+                        url=comment_link
                     )
-
-    logging.debug(f"found {len(tasks)}")
-    return tasks

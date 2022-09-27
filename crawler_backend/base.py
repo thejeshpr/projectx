@@ -10,7 +10,7 @@ import logging
 logging.basicConfig(filename='scraper.log', format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s',
                     datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
 
-sys.path.append(r"/app")  # here store is root folder(means parent).
+sys.path.append(r"C:\Users\tpr\PycharmProjects\projectx")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
 
 logging.debug("Setting up django")
@@ -70,6 +70,8 @@ class BaseParser():
 
     def update_elapsed_time(self):
         elapsed_time = time.time() - self.job_start_time
+        logging.debug(f"updating elapsed time: {elapsed_time} for job: {self.job}")
+        elapsed_time = elapsed_time if elapsed_time >= 1 else 1
         self.job.elapsed_time = elapsed_time
         self.job.save()
 
@@ -78,6 +80,22 @@ class BaseParser():
         logging.debug(f"checking task existence: {unique_key}")
         count = Task.objects.filter(unique_key=unique_key).count()
         return True if count else False
+
+    def create_task(self, unique_key, *args, **kwargs):
+        """
+        check and create the task if not exist
+        """
+        unique_key = self.build_task_unique_key(unique_key)
+        if not BaseParser.is_task_exist(unique_key):
+            logging.debug(f"creating unique_key : {unique_key}")
+            _ = Task.objects.create(
+                unique_key=unique_key,
+                name=kwargs.get("name"),
+                url=kwargs.get("url"),
+                data=kwargs.get("data"),
+                job=self.job,
+                site_conf=self.site_conf
+            )
 
     def create_tasks(self, tasks):
         tasks_to_create = []
@@ -113,8 +131,8 @@ class BaseParser():
         self.lock_site_conf()
         self.update_job_status('RUNNING')
         try:
-            tasks = scraper(self)
-            self.create_tasks(tasks)
+            scraper(self)
+            # self.create_tasks(tasks)
             self.update_job_status('SUCCESS')
         except Exception as e:
             self.update_job_status('ERROR')

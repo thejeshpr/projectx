@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView
 
@@ -19,7 +19,7 @@ class SiteConfCreateView(CreateView):
 
 class SiteConfDetailView(DetailView):
     model = SiteConf
-    context_object_name = 'siteconf'
+    context_object_name = 'site_conf'
     template_name = 'crawler/siteconf/detail.html'
 
     def get_context_data(self, **kwargs):
@@ -51,6 +51,7 @@ class TaskListView(ListView):
     context_object_name = 'tasks'
     queryset = Task.objects.all().order_by('-created_at')
 
+
 class ConfigValuesCreateView(CreateView):
     model = ConfigValues
     form_class = ConfigValuesCreateForm
@@ -63,6 +64,16 @@ class ConfigValuesDetailView(DetailView):
     template_name = 'crawler/config_values/detail.html'
 
 
+class JobDetailView(DetailView):
+    model = Job
+    context_object_name = 'job'
+    template_name = 'crawler/job/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 def scrape(request, pk):
     site_conf: SiteConf = get_object_or_404(SiteConf, pk=pk)
 
@@ -73,4 +84,9 @@ def scrape(request, pk):
         return JsonResponse({'status': 'ERROR', 'message': 'SiteConf already in sync, can\'t place parallel requests'})
 
     ib = InvokeBackend(site_conf)
+
+    flag = request.GET.get("redirect_to_job")
+    if flag and flag.lower() == 'yes':
+        return redirect(f'/job/{ib.job.id}')
+
     return JsonResponse({"status": "OK", "message": f"Crawling Started, job_id: {ib.job.id}"})
