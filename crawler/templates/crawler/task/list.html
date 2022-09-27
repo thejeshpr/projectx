@@ -11,9 +11,12 @@
 
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ task.id }} :: {{ task.name }}</h5>
-        <p><strong>Unique Key:</strong> {{ task.unique_key }}</p>
-        <p><strong>URL:</strong> {{ task.url }}</p>
+        <h5 class="card-title">
+            {{ task.id }} :: {{ task.name }}
+        </h5>
+<!--        <p><strong>Unique Key:</strong> {{ task.unique_key }}</p>-->
+<!--        <p><strong>URL:</strong> {{ task.url }}</p>-->
+          <a href="#">{{ task.url }}</a>
           {% if task.data %}
             <code>{{ task.data }}</code>
           {% endif %}
@@ -21,5 +24,7 @@
     </div>
     <br/>
     {% endfor %}
+
+    {% include "crawler/generic/pagination.html" %}
 
 {% endblock %}

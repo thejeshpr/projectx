@@ -31,6 +31,7 @@ class SiteConfListView(ListView):
     model = SiteConf
     template_name = 'crawler/siteconf/list.html'
     context_object_name = 'site_confs'
+    paginate_by = 25
     queryset = SiteConf.objects.all().order_by('-created_at')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -42,6 +43,7 @@ class JobListView(ListView):
     model = Job
     template_name = 'crawler/job/list.html'
     context_object_name = 'jobs'
+    paginate_by = 100
     queryset = Job.objects.all().order_by('-created_at')
 
 
@@ -49,6 +51,7 @@ class TaskListView(ListView):
     model = Task
     template_name = 'crawler/task/list.html'
     context_object_name = 'tasks'
+    paginate_by = 25
     queryset = Task.objects.all().order_by('-created_at')
 
 

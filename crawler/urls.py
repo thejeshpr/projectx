@@ -5,6 +5,7 @@ from . import views
 app_name = 'crawler'
 
 urlpatterns = [
+    path('', views.SiteConfListView.as_view(), name='home'),
     path('siteconf/', views.SiteConfListView.as_view(), name='siteconf-list'),
     path('siteconf/new', views.SiteConfCreateView.as_view(), name='siteconf-create'),
     path('siteconf/<pk>', views.SiteConfDetailView.as_view(), name='siteconf-detail'),
