@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from .forms import SiteConfCreateForm, ConfigValuesCreateForm
 from .invoke_backend import InvokeBackend
@@ -39,6 +39,12 @@ class SiteConfListView(ListView):
         return context
 
 
+class SiteConfEditView(UpdateView):
+    model = SiteConf
+    form_class = SiteConfCreateForm
+    template_name = 'crawler/siteconf/edit.html'
+
+
 class JobListView(ListView):
     model = Job
     template_name = 'crawler/job/list.html'
@@ -65,6 +71,20 @@ class ConfigValuesDetailView(DetailView):
     model = ConfigValues
     context_object_name = "config_value"
     template_name = 'crawler/config_values/detail.html'
+
+
+class ConfigValuesListView(ListView):
+    model = ConfigValues
+    template_name = 'crawler/config_values/list.html'
+    context_object_name = 'config_values'
+    paginate_by = 100
+    queryset = ConfigValues.objects.all().order_by('-created_at')
+
+
+class ConfigValuesEditView(UpdateView):
+    model = ConfigValues
+    form_class = ConfigValuesCreateForm
+    template_name = 'crawler/config_values/edit.html'
 
 
 class JobDetailView(DetailView):

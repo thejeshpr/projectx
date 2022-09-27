@@ -1,0 +1,22 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>Create New SiteConf</h6>
+    </div>
+    <form action="{% url 'crawler:siteconf-edit' object.pk %}" method="post" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary">Update</button>
+          {% endbuttons %}
+    </form>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+{% endblock %}

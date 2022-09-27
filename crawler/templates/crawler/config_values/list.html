@@ -1,0 +1,24 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>List of Tasks</h6>
+    </div>
+
+    {% for cv in config_values %}
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+            {{ cv.pk }}. {{ cv.key }} :: ********
+        </h5>
+      </div>
+    </div>
+    <br/>
+    {% endfor %}
+
+    {% include "crawler/generic/pagination.html" %}
+
+{% endblock %}

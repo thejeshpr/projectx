@@ -9,9 +9,12 @@ urlpatterns = [
     path('siteconf/', views.SiteConfListView.as_view(), name='siteconf-list'),
     path('siteconf/new', views.SiteConfCreateView.as_view(), name='siteconf-create'),
     path('siteconf/<pk>', views.SiteConfDetailView.as_view(), name='siteconf-detail'),
+    path('siteconf/<pk>/edit', views.SiteConfEditView.as_view(), name='siteconf-edit'),
 
+    path('config-value/', views.ConfigValuesListView.as_view(), name='config-value-list'),
     path('config-value/new', views.ConfigValuesCreateView.as_view(), name='config-value-create'),
     path('config-value/<pk>', views.ConfigValuesDetailView.as_view(), name='config-value-detail'),
+    path('config-value/<pk>/edit', views.ConfigValuesEditView.as_view(), name='config-value-edit'),
 
     path('job/', views.JobListView.as_view(), name='job-list'),
     path('job/<pk>', views.JobDetailView.as_view(), name='job-detail'),
