@@ -42,6 +42,7 @@ class SiteConfListView(ListView):
         # for sc in context["site_confs"]:
         #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
         # print(jobs_dict)
+        #print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
 
 
         return context
@@ -121,3 +122,11 @@ def scrape(request, pk):
         return redirect(f'/job/{ib.job.id}')
 
     return JsonResponse({"status": "OK", "message": f"Crawling Started, job_id: {ib.job.id}"})
+
+
+class Home(ListView):
+    model = Job
+    template_name = 'crawler/home.html'
+    context_object_name = 'jobs'
+    paginate_by = 100
+    queryset = Job.objects.all().order_by('-created_at')

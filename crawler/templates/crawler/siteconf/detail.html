@@ -11,7 +11,9 @@
         <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>
         <p><strong>Jobs:</strong> {{ site_conf.jobs.count }}</p>
         <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p>
-          <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">sync</a>
+        <p><strong>Extras:</strong> <code>{{ site_conf.extra_data_json }}</code></p>
+        <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
+        <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
     </div>
 
 
