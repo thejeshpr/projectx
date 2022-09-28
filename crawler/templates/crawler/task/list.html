@@ -14,9 +14,7 @@
         <h5 class="card-title">
             {{ task.id }} :: {{ task.name }}
         </h5>
-<!--        <p><strong>Unique Key:</strong> {{ task.unique_key }}</p>-->
-<!--        <p><strong>URL:</strong> {{ task.url }}</p>-->
-          <a href="#">{{ task.url }}</a>
+          <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
           {% if task.data %}
             <code>{{ task.data }}</code>
           {% endif %}

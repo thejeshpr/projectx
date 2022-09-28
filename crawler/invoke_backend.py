@@ -20,20 +20,13 @@ class InvokeBackend():
         self.job = Job(site_conf=self.site_conf)
         self.job.save()
 
-
     def invoke_backend_crawler(self):
-        # print(f"Path:------------> { os.path.dirname(os.path.realpath(__file__)) }")
-
         parent_path = os.path.dirname(os.path.realpath(__file__))
         base_path = os.path.dirname(parent_path)
-        print(f'ParentPath: {parent_path}')
-        print(f'BasePath: {base_path}')
         script_path = os.path.join(base_path, 'crawler_backend', 'base.py')
-        print(script_path)
         cmd = f'python "{script_path}" {self.job.id}'
-        print(f'cmd: {cmd}')
         o = subprocess.Popen(cmd, shell=True)
-        print('res', o)
+
 
 
 
