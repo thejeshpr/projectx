@@ -10,7 +10,7 @@ import logging
 logging.basicConfig(filename='scraper.log', format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s',
                     datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
 
-sys.path.append(r"C:\Users\tpr\PycharmProjects\projectx")  # here store is root folder(means parent).
+sys.path.append(r"/app")  # here store is root folder(means parent).
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
 
 logging.debug("Setting up django")
