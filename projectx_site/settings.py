@@ -146,7 +146,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-CSRF_TRUSTED_ORIGINS = [os.environ.get("SITE_NAME")]
+if os.environ.get("SITE_NAME"):
+    CSRF_TRUSTED_ORIGINS = [os.environ.get("SITE_NAME")]
 
 LOGIN_REDIRECT_URL = 'crawler:home'
 LOGOUT_REDIRECT_URL = 'crawler:home'

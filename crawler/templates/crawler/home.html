@@ -12,8 +12,8 @@
             <div class="card-body">
                 <h5 class="card-title">
                     <a href="{% url 'crawler:job-detail' job.pk %}"><code style="color: green;">{{ job.id }}::{{ job.site_conf.name }}</code></a>
-                    <span class="card-subtitle mb-2 text-muted">{% include './job/status.html' %}</span>
                 </h5>
+                <h6><strong>Status:</strong> <span class="card-subtitle mb-2 text-muted">{% include './job/status.html' %}</span></h6>
                 <h6 class="card-subtitle mb-2 text-muted">Time taken: <code>{% if job.elapsed_time %}<span>{{ job.elapsed_time }}s</span>{% else %}<span>...</span>{% endif %}</code></h6>
                 <h6 class="card-subtitle mb-2 text-muted">SiteConf: <a href="{% url 'crawler:siteconf-detail' job.site_conf.pk %}">{{ job.site_conf }}</a></h6>
                 <h6 class="card-subtitle mb-2 text-muted">Tasks: <a href="{% url 'crawler:job-detail' job.pk %}">{{ job.tasks.count }}</a></h6>
