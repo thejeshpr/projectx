@@ -117,7 +117,7 @@ class JobDetailView(DetailView):
         return context
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def scrape(request, pk):
     site_conf: SiteConf = get_object_or_404(SiteConf, pk=pk)
 
