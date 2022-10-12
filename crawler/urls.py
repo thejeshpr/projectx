@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.Home.as_view(), name='home'),
     path('siteconf/', views.SiteConfListView.as_view(), name='siteconf-list'),
     path('siteconf/new', views.SiteConfCreateView.as_view(), name='siteconf-create'),
+    path('siteconf/new/json', views.SiteConfByJSONView.as_view(), name='siteconf-create-json'),
     path('siteconf/<pk>', views.SiteConfDetailView.as_view(), name='siteconf-detail'),
     path('siteconf/<pk>/edit', views.SiteConfEditView.as_view(), name='siteconf-edit'),
 

@@ -1,13 +1,14 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Count, Aggregate
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView
 
-
-from .forms import SiteConfCreateForm, ConfigValuesCreateForm
+from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON
 from .invoke_backend import InvokeBackend
 from .models import SiteConf, ConfigValues, Job, Task
 
@@ -27,6 +28,20 @@ class SiteConfDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        json_data = dict(
+            name=context['site_conf'].name,
+            enabled=context['site_conf'].enabled,
+            is_locked=context['site_conf'].is_locked,
+            icon=context['site_conf'].icon,
+            scraper_name=context['site_conf'].scraper_name
+        )
+
+        if context["site_conf"].extra_data_json and context["site_conf"].extra_data_json != "{}":
+            json_data["extra_data_json"] = context["site_conf"].extra_data_json.replace('"', '\"')
+        else:
+            json_data["extra_data_json"] = "{}"
+
+        context["json_data"] = json.dumps(json_data, indent=4)
         return context
 
 
@@ -143,3 +158,13 @@ class Home(ListView):
     context_object_name = 'jobs'
     paginate_by = 100
     queryset = Job.objects.all().order_by('-created_at')
+
+
+class SiteConfByJSONView(FormView):
+    template_name = 'crawler/siteconf/create_by_json.html'
+    form_class = SiteConfFormByJSON
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.create_site_conf()
+        return super().form_valid(form)
