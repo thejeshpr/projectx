@@ -8,6 +8,7 @@ from .spny import scrape as SNPY_Scraper
 from .ng import scrape as NG_Scraper
 from .rp import scrape as RP_Scraper
 from .dzne import scrape as DZNE_Scraper
+from .bpanda import scrape as BPANDA_Scraper
 
 
 def get_scrapper(name):
@@ -22,6 +23,7 @@ def get_scrapper(name):
         ng=NG_Scraper,
         rp=RP_Scraper,
         dzne=DZNE_Scraper,
+        bpanda=BPANDA_Scraper,
     )
     if name in scrapers.keys():
         return scrapers.get(name)
