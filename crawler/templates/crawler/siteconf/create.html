@@ -10,7 +10,8 @@
           {% csrf_token %}
           {% bootstrap_form form %}
           {% buttons %}
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Create</button> OR
+            <a class="btn btn-success" href="{% url 'crawler:siteconf-create-json' %}">Create by JSON</a>
           {% endbuttons %}
     </form>
     {% if error %}
