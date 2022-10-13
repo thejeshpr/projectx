@@ -53,5 +53,5 @@ class SiteConfFormByJSON(forms.Form):
             base_url=json_data.get("base_url"),
             extra_data_json=json_data.get("extra_data_json"),
             enabled=json_data.get("enabled"),
-            is_locked=json_data.get("enabled")
+            is_locked=json_data.get("is_locked")
         )
