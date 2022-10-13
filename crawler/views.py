@@ -30,6 +30,7 @@ class SiteConfDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         json_data = dict(
             name=context['site_conf'].name,
+            base_url=context['site_conf'].base_url,
             enabled=context['site_conf'].enabled,
             is_locked=context['site_conf'].is_locked,
             icon=context['site_conf'].icon,
