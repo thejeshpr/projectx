@@ -9,6 +9,7 @@ from .ng import scrape as NG_Scraper
 from .rp import scrape as RP_Scraper
 from .dzne import scrape as DZNE_Scraper
 from .bpanda import scrape as BPANDA_Scraper
+from .twrds import scrape as TWRDS_Scraper
 
 
 def get_scrapper(name):
@@ -24,6 +25,7 @@ def get_scrapper(name):
         rp=RP_Scraper,
         dzne=DZNE_Scraper,
         bpanda=BPANDA_Scraper,
+        twrds=TWRDS_Scraper,
     )
     if name in scrapers.keys():
         return scrapers.get(name)
