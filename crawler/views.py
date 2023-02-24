@@ -1,7 +1,9 @@
 import json
+import uuid
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Count, Aggregate
+from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -189,3 +191,20 @@ class SiteConfByJSONView(FormView):
         )
         self.success_url = reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=sc_obj.pk))
         return super().form_valid(form)
+
+
+def duplicate_site_conf(request, pk):
+    # sc: SiteConf = get_object_or_404(SiteConf, pk=pk)
+    original_obj = get_object_or_404(SiteConf, pk=pk)
+    obj_dict = model_to_dict(original_obj)
+    obj_dict.pop('id')  # remove the ID field to avoid duplication
+    new_obj = SiteConf(**obj_dict)
+
+    new_uuid = uuid.uuid4()
+
+    # Get the last 4 characters of the UUID's hex string
+    short_uuid = new_uuid.hex[-4:]
+
+    new_obj.name = f"{new_obj.name} - Copy({short_uuid})"
+    new_obj.save()
+    return redirect(reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=new_obj.pk)))
