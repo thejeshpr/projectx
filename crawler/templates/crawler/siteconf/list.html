@@ -25,7 +25,8 @@
           <h6><strong>Last Sync Time:</strong> Never</h6>
           {% endif %}
           <a class="btn btn-sm btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
-          <a class="btn btn-sm btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}?redirect_to_job=yes">Edit</a>
+          <a class="btn btn-sm btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
       </div>
     </div>
     <br/>

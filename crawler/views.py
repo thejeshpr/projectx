@@ -78,7 +78,6 @@ class SiteConfEditView(UpdateView):
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class SiteConfDeleteView(DeleteView):
     model = SiteConf
-    # context_object_name = 'siteconf'
     template_name = 'crawler/generic/delete.html'
     success_url = reverse_lazy("crawler:home")
 
@@ -170,11 +169,10 @@ class Home(ListView):
     queryset = Job.objects.all().order_by('-created_at')
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class SiteConfByJSONView(FormView):
     template_name = 'crawler/siteconf/create_by_json.html'
     form_class = SiteConfFormByJSON
-
-    # success_url = redirect('crawler:siteconf-detail', )
     success_url = None
 
     def form_valid(self, form):
@@ -191,5 +189,3 @@ class SiteConfByJSONView(FormView):
         )
         self.success_url = reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=sc_obj.pk))
         return super().form_valid(form)
-
-    # def get_success_url(self):

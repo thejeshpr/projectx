@@ -44,14 +44,14 @@ class SiteConfFormByJSON(forms.Form):
                 self.add_error(None, ValidationError(f"Invalid JSON Data: {e}"))
         return cleaned_data
 
-    def create_site_conf(self):
-        json_data = json.loads(self.cleaned_data.get("json_data"))
-        SiteConf.objects.create(
-            name=json_data.get("name"),
-            scraper_name=json_data.get("scraper_name"),
-            icon=json_data.get("icon"),
-            base_url=json_data.get("base_url"),
-            extra_data_json=json_data.get("extra_data_json"),
-            enabled=json_data.get("enabled"),
-            is_locked=json_data.get("is_locked")
-        )
+    # def create_site_conf(self):
+    #     json_data = json.loads(self.cleaned_data.get("json_data"))
+    #     SiteConf.objects.create(
+    #         name=json_data.get("name"),
+    #         scraper_name=json_data.get("scraper_name"),
+    #         icon=json_data.get("icon"),
+    #         base_url=json_data.get("base_url"),
+    #         extra_data_json=json_data.get("extra_data_json"),
+    #         enabled=json_data.get("enabled"),
+    #         is_locked=json_data.get("is_locked")
+    #     )

@@ -18,6 +18,8 @@
 
         <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
         <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
+
     </div>
 
     <div>
