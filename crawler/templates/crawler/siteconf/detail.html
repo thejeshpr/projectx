@@ -5,6 +5,7 @@
 {% block content %}
     <div>
         <h6>Details</h6>
+        <h3>{{ site_conf.name }}</h3>
         <p><strong>Grabber:</strong> {{ site_conf.pk }}::{{ site_conf.scraper_name }}</p>
         <p><strong>Enabled:</strong> {{ site_conf.enabled }}</p>
         <p><strong>Is Locked:</strong> {{ site_conf.is_locked }}</p>
@@ -18,6 +19,7 @@
 
         <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
         <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
+        <a class="btn btn-warning" href="{% url 'crawler:siteconf-duplicate' site_conf.pk %}" onclick="return confirm('Are you sure you want to Duplicate?');">Duplicate</a>
         <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
 
     </div>
