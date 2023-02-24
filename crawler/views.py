@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Count, Aggregate
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView, DeleteView
 
 from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON
 from .invoke_backend import InvokeBackend
@@ -72,6 +73,14 @@ class SiteConfEditView(UpdateView):
     model = SiteConf
     form_class = SiteConfCreateForm
     template_name = 'crawler/siteconf/edit.html'
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class SiteConfDeleteView(DeleteView):
+    model = SiteConf
+    # context_object_name = 'siteconf'
+    template_name = 'crawler/generic/delete.html'
+    success_url = reverse_lazy("crawler:home")
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -164,8 +173,23 @@ class Home(ListView):
 class SiteConfByJSONView(FormView):
     template_name = 'crawler/siteconf/create_by_json.html'
     form_class = SiteConfFormByJSON
-    success_url = '/'
+
+    # success_url = redirect('crawler:siteconf-detail', )
+    success_url = None
 
     def form_valid(self, form):
-        form.create_site_conf()
+        # form.create_site_conf()
+        json_data = json.loads(form.cleaned_data.get("json_data"))
+        sc_obj = SiteConf.objects.create(
+            name=json_data.get("name"),
+            scraper_name=json_data.get("scraper_name"),
+            icon=json_data.get("icon"),
+            base_url=json_data.get("base_url"),
+            extra_data_json=json_data.get("extra_data_json"),
+            enabled=json_data.get("enabled"),
+            is_locked=json_data.get("is_locked")
+        )
+        self.success_url = reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=sc_obj.pk))
         return super().form_valid(form)
+
+    # def get_success_url(self):

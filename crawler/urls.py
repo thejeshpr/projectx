@@ -11,6 +11,7 @@ urlpatterns = [
     path('siteconf/new/json', views.SiteConfByJSONView.as_view(), name='siteconf-create-json'),
     path('siteconf/<pk>', views.SiteConfDetailView.as_view(), name='siteconf-detail'),
     path('siteconf/<pk>/edit', views.SiteConfEditView.as_view(), name='siteconf-edit'),
+    path('siteconf/<pk>/delete', views.SiteConfDeleteView.as_view(), name='siteconf-delete'),
 
     path('config-value/', views.ConfigValuesListView.as_view(), name='config-value-list'),
     path('config-value/new', views.ConfigValuesCreateView.as_view(), name='config-value-create'),
