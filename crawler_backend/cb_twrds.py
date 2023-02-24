@@ -18,7 +18,7 @@ def scrape(obj: BaseParser):
                 link: str = a.attrs.get("href")
                 h2 = a.find("h2", first=True)
 
-                if h2 and link and link not in links and link.startswith("/"):
+                if all([h2, link, link not in links, link.startswith("/")]):
                     title = h2.text.strip()
 
                     links.append(link)

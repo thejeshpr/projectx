@@ -1,7 +1,7 @@
 import argparse
 import time
 import os
-# django project name is adleads, replace adleads with your project name
+
 import sys
 import django
 import uuid
@@ -10,8 +10,20 @@ import logging
 logging.basicConfig(filename='scraper.log', format='%(asctime)s - %(funcName)s - %(levelname)s - %(message)s',
                     datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG)
 
-# sys.path.append(r"/app")
-sys.path.append(r"./")
+# parent_path = os.path.dirname(os.path.realpath(__file__))
+#         base_path = os.path.dirname(parent_path)
+#         script_path = os.path.join(base_path, 'crawler_backend', 'base.py')
+#         cmd = f'python "{script_path}" {self.job.id}'
+#         o = subprocess.Popen(cmd, shell=True)
+
+parent_path = os.path.dirname(os.path.realpath(__file__))
+base_path = os.path.dirname(parent_path)
+
+# print(parent_path, base_path)
+
+sys.path.append(base_path)
+# sys.path.append(r"./")
+# print(sys.path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
 
 logging.debug("Setting up django")
@@ -127,7 +139,8 @@ class BaseParser():
                 f"data is up to date, no new tasks will be created for {self.site_conf.name}, job: {self.job.id}")
 
     def scrape(self):
-        from crawler_backend.scraper_config import get_scrapper
+        # from crawler_backend.scraper_config import get_scrapper
+        from crawler_backend.scrapper_filder import get_scrapper
         scraper = get_scrapper(self.site_conf.scraper_name)
         self.lock_site_conf()
         self.update_job_status('RUNNING')
@@ -150,7 +163,7 @@ class BaseParser():
         conf: ConfigValues = ConfigValues.objects.filter(key=key).first()
         logging.debug(f"Conf: {conf}")
         if not conf:
-            raise "Invalid Configuration Key"
+            raise Exception("Invalid Configuration Key")
         logging.debug(f'config value for key is {conf.val}')
         return conf.val
 

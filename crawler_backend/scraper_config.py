@@ -1,15 +1,15 @@
-from .gh_trending import scrape as GH_Trending_Scraper
-from .bkdko import scrape as BKDKO_Scraper
-from .crdko import scrape as CRDKO_Scraper
-from .mm import scrape as MM_Scraper
-from .d2 import scrape as D2_Scraper
-from .rdt import scrape as RDT_Scraper
-from .spny import scrape as SNPY_Scraper
-from .ng import scrape as NG_Scraper
-from .rp import scrape as RP_Scraper
-from .dzne import scrape as DZNE_Scraper
-from .bpanda import scrape as BPANDA_Scraper
-from .twrds import scrape as TWRDS_Scraper
+from .cb_gh_trending import scrape as GH_Trending_Scraper
+from .cb_bkdko import scrape as BKDKO_Scraper
+from .cb_crdko import scrape as CRDKO_Scraper
+from .cb_mm import scrape as MM_Scraper
+from .cb_d2 import scrape as D2_Scraper
+from .cb_rdt import scrape as RDT_Scraper
+from .cb_spny import scrape as SNPY_Scraper
+from .cb_ng import scrape as NG_Scraper
+from .cb_rp import scrape as RP_Scraper
+from .cb_dzne import scrape as DZNE_Scraper
+from .cb_bpanda import scrape as BPANDA_Scraper
+from .cb_twrds import scrape as TWRDS_Scraper
 
 
 def get_scrapper(name):
