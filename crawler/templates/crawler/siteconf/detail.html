@@ -26,6 +26,8 @@
       <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
       <a class="btn btn-warning" href="{% url 'crawler:siteconf-duplicate' site_conf.pk %}" onclick="return confirm('Are you sure you want to Duplicate?');">Duplicate</a>
       <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
+      <a class="btn btn-secondary" href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">Jobs</a>
+      <a class="btn btn-secondary" href="{% url 'crawler:siteconf-tasks' site_conf.pk %}">Tasks</a>
     </div>
   </div>
 {% endblock %}

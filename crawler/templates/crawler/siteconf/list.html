@@ -2,55 +2,40 @@
 
 {% load bootstrap5 %}
 
-{% block content %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Site Configuration</th>
-                <th>Grabber</th>
-                <th>Enabled</th>
-                <th>Is Locked</th>
-                <th>Jobs</th>
-                <th>Tasks</th>
-                <th>Last Sync Time</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for site_conf in site_confs %}
-            <tr>
-                <td>
-                    <a href="{% url 'crawler:siteconf-detail' site_conf.pk %}">
-                        {{ site_conf.pk }}::{{ site_conf.name }}
-                    </a>
-                </td>
-                <td>{{ site_conf.scraper_name }}</td>
-                <td>{{ site_conf.enabled }}</td>
-                <td>{{ site_conf.is_locked }}</td>
-                <td><a href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">{{ site_conf.jobs.count }}</a></td>
-                <td>{{ site_conf.tasks.count }}</td>
-                <td>
-                    {% if site_conf.jobs.last %}
-                        <a href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">
-                            {{ site_conf.jobs.last.created_at }}
-                        </a>
-                    {% else %}
-                        Never
-                    {% endif %}
-                </td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a class="btn btn-sm btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
-                        <a class="btn btn-sm btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
-<!--                        <a class="btn btn-sm btn-secondary" href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">Jobs</a>-->
-                        <a class="btn btn-sm btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+{% block extra_head %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+{% endblock %}
 
-    {% include "crawler/generic/pagination.html" %}
+{% block content %}
+<div class="card-deck">
+    {% for site_conf in site_confs %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title" style="font-family: 'Roboto', sans-serif;"><a href="{% url 'crawler:siteconf-detail' site_conf.pk %}">{{ site_conf.name }}</a></h5>
+            <h6 class="card-subtitle mb-2 text-muted" style="font-family: 'Roboto', sans-serif;">{{ site_conf.scraper_name }}</h6>
+            <p class="card-text" style="font-family: 'Roboto', sans-serif;">Jobs: <a href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">{{ site_conf.jobs.count }}</a></p>
+            <p class="card-text" style="font-family: 'Roboto', sans-serif;">Tasks: <a href="{% url 'crawler:siteconf-tasks' site_conf.pk %}">{{ site_conf.tasks.count }}</a></p>
+            <p class="card-text" style="font-family: 'Roboto', sans-serif;">Last Sync Time:
+                {% if site_conf.jobs.last %}
+                <a href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">{{ site_conf.jobs.last.created_at }}</a>
+                {% else %}
+                Never
+                {% endif %}
+            </p>
+            <div class="btn-group" role="group">
+                <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank"><i class="fas fa-sync"></i> Sync</a>
+                <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}"><i class="fas fa-edit"></i> Edit</a>
+                <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}"><i class="fas fa-trash"></i> Delete</a>
+            </div>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:3 %}
+    </div><div class="card-deck">
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% include "crawler/generic/pagination.html" %}
 
 {% endblock %}

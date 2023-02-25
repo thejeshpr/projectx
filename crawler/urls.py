@@ -14,6 +14,7 @@ urlpatterns = [
     path('siteconf/<pk>/delete', views.SiteConfDeleteView.as_view(), name='siteconf-delete'),
     path('siteconf/<pk>/duplicate', views.duplicate_site_conf, name='siteconf-duplicate'),
     path('siteconf/<siteconf_pk>/jobs', views.JobsListViewBySiteConf.as_view(), name='siteconf-jobs'),
+    path('siteconf/<siteconf_pk>/tasks', views.TaskListViewBySiteConf.as_view(), name='siteconf-tasks'),
 
     path('config-value/', views.ConfigValuesListView.as_view(), name='config-value-list'),
     path('config-value/new', views.ConfigValuesCreateView.as_view(), name='config-value-create'),

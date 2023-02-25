@@ -59,6 +59,19 @@ class SiteConfListView(ListView):
     paginate_by = 25
     queryset = SiteConf.objects.all().order_by('-created_at')
 
+    # CODE for fetching last job status of each site conf
+    # from django.db.models import Max, Subquery, OuterRef
+    #
+    # siteconfs_with_last_job_status = SiteConf.objects.annotate(
+    #     last_job_status=Subquery(
+    #         Job.objects.filter(
+    #             site_conf_id=OuterRef('pk')
+    #         ).order_by('-created_at').values('status')[:1]
+    #     )
+    # )
+    # for siteconf in siteconfs_with_last_job_status:
+    #     print(siteconf.name, siteconf.last_job_status)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -216,7 +229,7 @@ def duplicate_site_conf(request, pk):
 class JobsListViewBySiteConf(ListView):
     model = Job
     context_object_name = 'jobs'
-    paginate_by = 5
+    paginate_by = 20
     template_name = 'crawler/job/list_by_siteconf.html'
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -226,3 +239,19 @@ class JobsListViewBySiteConf(ListView):
 
     def get_queryset(self):
         return Job.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class TaskListViewBySiteConf(ListView):
+    model = Task
+    context_object_name = 'tasks'
+    paginate_by = 25
+    template_name = 'crawler/task/list_by_siteconf.html'
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['site_conf'] = SiteConf.objects.get(pk=self.kwargs.get('siteconf_pk'))
+        return context
+
+    def get_queryset(self):
+        return Task.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')
