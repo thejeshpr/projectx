@@ -3,30 +3,29 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div>
-        <h6>Details</h6>
-        <h3>{{ site_conf.name }}</h3>
-        <p><strong>Grabber:</strong> {{ site_conf.pk }}::{{ site_conf.scraper_name }}</p>
-        <p><strong>Enabled:</strong> {{ site_conf.enabled }}</p>
-        <p><strong>Is Locked:</strong> {{ site_conf.is_locked }}</p>
-        <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>
-        <p><strong>Jobs:</strong> {{ site_conf.jobs.count }}</p>
-        <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p>
-        <p><strong>Extras:</strong> <code>{{ site_conf.extra_data_json }}</code></p>
-        <div>
-            <strong>JSON:</strong> <code><pre>{{ json_data }}</pre></code>
-        </div>
-
-        <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
-        <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
-        <a class="btn btn-warning" href="{% url 'crawler:siteconf-duplicate' site_conf.pk %}" onclick="return confirm('Are you sure you want to Duplicate?');">Duplicate</a>
-        <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
-
+  <div class="card">
+    <div class="card-header">
+      <h6>Details</h6>
     </div>
-
-    <div>
-
+    <div class="card-body">
+      <h3>{{ site_conf.name }}</h3>
+      <p><strong>Grabber:</strong> {{ site_conf.pk }}::{{ site_conf.scraper_name }}</p>
+      <p><strong>Enabled:</strong> {{ site_conf.enabled }}</p>
+      <p><strong>Is Locked:</strong> {{ site_conf.is_locked }}</p>
+      <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>
+      <p><strong>Jobs:</strong> {{ site_conf.jobs.count }}</p>
+      <p><strong>Tasks:</strong> {{ site_conf.tasks.count }}</p>
+      <p><strong>Extras:</strong> <code>{{ site_conf.extra_data_json }}</code></p>
+      <div>
+        <strong>JSON:</strong>
+        <pre><code>{{ json_data }}</code></pre>
+      </div>
     </div>
-
-
+    <div class="card-footer">
+      <a class="btn btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
+      <a class="btn btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
+      <a class="btn btn-warning" href="{% url 'crawler:siteconf-duplicate' site_conf.pk %}" onclick="return confirm('Are you sure you want to Duplicate?');">Duplicate</a>
+      <a class="btn btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
+    </div>
+  </div>
 {% endblock %}
