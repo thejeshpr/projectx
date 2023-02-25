@@ -13,6 +13,7 @@ urlpatterns = [
     path('siteconf/<pk>/edit', views.SiteConfEditView.as_view(), name='siteconf-edit'),
     path('siteconf/<pk>/delete', views.SiteConfDeleteView.as_view(), name='siteconf-delete'),
     path('siteconf/<pk>/duplicate', views.duplicate_site_conf, name='siteconf-duplicate'),
+    path('siteconf/<siteconf_pk>/jobs', views.JobsListViewBySiteConf.as_view(), name='siteconf-jobs'),
 
     path('config-value/', views.ConfigValuesListView.as_view(), name='config-value-list'),
     path('config-value/new', views.ConfigValuesCreateView.as_view(), name='config-value-create'),

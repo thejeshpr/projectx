@@ -1,6 +1,8 @@
 import json
 import uuid
 
+from typing import Any, Dict
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Count, Aggregate
 from django.forms import model_to_dict
@@ -208,3 +210,19 @@ def duplicate_site_conf(request, pk):
     new_obj.name = f"{new_obj.name} - Copy({short_uuid})"
     new_obj.save()
     return redirect(reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=new_obj.pk)))
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class JobsListViewBySiteConf(ListView):
+    model = Job
+    context_object_name = 'jobs'
+    paginate_by = 5
+    template_name = 'crawler/job/list_by_siteconf.html'
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['site_conf'] = SiteConf.objects.get(pk=self.kwargs.get('siteconf_pk'))
+        return context
+
+    def get_queryset(self):
+        return Job.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')

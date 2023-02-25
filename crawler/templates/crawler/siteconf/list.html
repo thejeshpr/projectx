@@ -3,38 +3,53 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div>
-        <h6>List of Site Configurations</h6>
-    </div>
-
-    <div class="row">
-        {% for site_conf in site_confs %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <a href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><h5 class="card-title">{{ site_conf.pk }}::{{ site_conf.name }}</h5></a>
-                    <h6><strong>Grabber:</strong> {{ site_conf.scraper_name }}</h6>
-                    <h6><strong>Enabled:</strong> {{ site_conf.enabled }}</h6>
-                    <h6><strong>Is Locked:</strong> {{ site_conf.is_locked }}</h6>
-    <!--        <p><strong>Base URL:</strong> {{ site_conf.base_url }}</p>-->
-                    <h6><strong>Jobs:</strong> {{ site_conf.jobs.count }}</h6>
-                    <h6><strong>Tasks:</strong> {{ site_conf.tasks.count }}</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Site Configuration</th>
+                <th>Grabber</th>
+                <th>Enabled</th>
+                <th>Is Locked</th>
+                <th>Jobs</th>
+                <th>Tasks</th>
+                <th>Last Sync Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for site_conf in site_confs %}
+            <tr>
+                <td>
+                    <a href="{% url 'crawler:siteconf-detail' site_conf.pk %}">
+                        {{ site_conf.pk }}::{{ site_conf.name }}
+                    </a>
+                </td>
+                <td>{{ site_conf.scraper_name }}</td>
+                <td>{{ site_conf.enabled }}</td>
+                <td>{{ site_conf.is_locked }}</td>
+                <td><a href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">{{ site_conf.jobs.count }}</a></td>
+                <td>{{ site_conf.tasks.count }}</td>
+                <td>
                     {% if site_conf.jobs.last %}
-                        <h6><strong>Last Job:</strong> <a href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">{{ site_conf.jobs.last.created_at }}</a></h6>
-                        <h6><strong>Last Sync Time:</strong> {{ site_conf.jobs.last.created_at }}</h6>
+                        <a href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">
+                            {{ site_conf.jobs.last.created_at }}
+                        </a>
                     {% else %}
-                        <h6><strong>Last Sync Time:</strong> Never</h6>
+                        Never
                     {% endif %}
-                    <div class="mt-3">
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
                         <a class="btn btn-sm btn-success" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank">Sync</a>
                         <a class="btn btn-sm btn-primary" href="{% url 'crawler:siteconf-edit' site_conf.pk %}">Edit</a>
+<!--                        <a class="btn btn-sm btn-secondary" href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">Jobs</a>-->
                         <a class="btn btn-sm btn-danger" href="{% url 'crawler:siteconf-delete' site_conf.pk %}">Delete</a>
                     </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     {% include "crawler/generic/pagination.html" %}
 

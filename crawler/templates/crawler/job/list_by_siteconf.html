@@ -1,0 +1,31 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>List of Jobs</h6>
+    </div>
+
+    <div class="card">
+      <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td><a href="{% url 'crawler:job-detail' job.pk %}"><code style="color: green;">{{ job.id }}::{{ job.site_conf.name }}</code></a></td>
+                    <td>{% include './status.html' %} <code>{% if job.elapsed_time %}<span>{{ job.elapsed_time }}s</span>{% else %}<span>...</span>{% endif %}</code></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% include "crawler/generic/pagination.html" %}
+
+{% endblock %}
