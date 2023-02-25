@@ -25,8 +25,11 @@ urlpatterns = [
     path('job/<pk>', views.JobDetailView.as_view(), name='job-detail'),
 
     path('task/', views.TaskListView.as_view(), name='task-list'),
+    path('task/<pk>/toggle-bookmark', views.toggle_bookmark, name='task-bookmark'),
+    path('bookmarks', views.BookmarkTaskListViewBySiteConf.as_view(), name='bookmarks'),
 
     path('scrape/<pk>', views.scrape, name='scrape'),
+
 ]
 
 # urlpatterns = [

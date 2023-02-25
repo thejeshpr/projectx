@@ -15,6 +15,12 @@
             {{ task.id }} :: {{ task.name }}
         </h5>
           <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+          <p>bookmark: {{ task.is_bookmarked }}</p>
+          {% if task.is_bookmarked %}
+          <p><i id="star-{{ task.id }}" class="las la-star bm-icon float-end"></i></p>
+          {% else %}
+          <p><i id="star-{{ task.id }}" class="lar la-bookmark bm-icon float-end"></i></p>
+          {% endif %}
           {% if task.data %}
             <code>{{ task.data }}</code>
           {% endif %}
@@ -26,4 +32,39 @@
 
     {% include "crawler/generic/pagination.html" %}
 
+{% endblock %}
+
+{% block jscontent %}
+
+<script>
+$(document).ready(function(){
+    $(".bm-icon").click(function(){
+
+      var id = $(this).attr("id").replace("star-", "");
+      $.ajax({
+        type: 'GET',
+        url: "/task/" + id + "/toggle-bookmark",
+        encode: true,
+        success: function(data, textStatus, jqXHR) {
+            console.log(data.status)
+
+            if (data.action == "marked"){
+                console.log("marked");
+                console.log("#star-" + id );
+                $("#star-" + id ).removeClass("lar la-bookmark").addClass("las la-star");
+            } else {
+                console.log("unmarked");
+                $("#star-" + id ).removeClass("las la-star").addClass("lar la-bookmark");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("ERROR");
+        }
+      }).done(function(data) {
+        // done
+      });
+    });
+
+});
+</script>
 {% endblock %}

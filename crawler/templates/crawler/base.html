@@ -26,6 +26,7 @@
     <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
     <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#7952b3">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
 
     <style>
@@ -60,24 +61,28 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'crawler:siteconf-list' %}">SyncConfs</a>
+          <a class="nav-link" href="{% url 'crawler:siteconf-list' %}"><i class="las la-sync"></i> SyncConfs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'crawler:job-list' %}">Jobs</a>
+          <a class="nav-link" href="{% url 'crawler:job-list' %}"><i class="las la-tasks"></i> Jobs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'crawler:task-list' %}">Tasks</a>
+          <a class="nav-link" href="{% url 'crawler:task-list' %}"><i class="las la-tasks"></i> Tasks</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'crawler:config-value-list' %}">ConfigVals</a>
+          <a class="nav-link" href="{% url 'crawler:config-value-list' %}"><i class="las la-cogs"></i> ConfigVals</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'crawler:siteconf-create' %}">+ SiteConf</a>
+          <a class="nav-link" href="{% url 'crawler:bookmarks' %}"><i class="las la-bookmark"></i> Bookmarks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'crawler:siteconf-create' %}"><i class="las la-plus"></i> SiteConf</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 
 <main class="container-fluid">
   <div class="bg-light rounded">

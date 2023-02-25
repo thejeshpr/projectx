@@ -246,7 +246,8 @@ class TaskListViewBySiteConf(ListView):
     model = Task
     context_object_name = 'tasks'
     paginate_by = 25
-    template_name = 'crawler/task/list_by_siteconf.html'
+    # template_name = 'crawler/task/list_by_siteconf.html'
+    template_name = 'crawler/task/list.html'
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -255,3 +256,33 @@ class TaskListViewBySiteConf(ListView):
 
     def get_queryset(self):
         return Task.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class BookmarkTaskListViewBySiteConf(ListView):
+    model = Task
+    context_object_name = 'tasks'
+    paginate_by = 25
+    # template_name = 'crawler/task/list_by_siteconf.html'
+    template_name = 'crawler/task/list.html'
+
+    def get_queryset(self):
+        return Task.objects.filter(is_bookmarked=True).order_by('-created_at', '-pk')
+
+
+
+def toggle_bookmark(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.is_bookmarked = not task.is_bookmarked
+    task.save()
+    action = "marked" if task.is_bookmarked else "unmarked"
+    return JsonResponse({"status": "ok", "action": action})
+
+    # task = Task.objects.filter(pk=pk).first()
+    # if task:
+    #     task.is_bookmarked = not task.is_bookmarked
+    #     task.save()
+    #     action = "marked" if task.is_bookmarked else "unmarked"
+    #     return JsonResponse({"status": "ok", "action": action})
+    # else:
+    #     return JsonResponse({"status": "error", "desc": "task not found"})
