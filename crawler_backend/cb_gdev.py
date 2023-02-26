@@ -9,7 +9,6 @@ def scrape(obj: BaseParser):
     res = WebClient.get(base_url)
 
     a_list = res.html.xpath("/html/body/div[*]/div/div/div[*]/div[*]/div[*]/a")
-    # print(a_list)
 
     for a in a_list[::-1]:
         if a.attrs.get('aria-label'):
