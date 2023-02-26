@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import SiteConf, Job, Task, ExtraTaskData, ConfigValues
+from .models import SiteConf, Job, Task, ExtraTaskData, ConfigValues, Category
 
 
 @admin.register(SiteConf)
@@ -60,3 +60,9 @@ class ConfigValuesAdmin(admin.ModelAdmin):
     list_display = ('id', 'created_at', 'key', 'val', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     date_hierarchy = 'created_at'
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+    search_fields = ('name',)

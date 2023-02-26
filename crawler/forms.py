@@ -17,6 +17,7 @@ class SiteConfCreateForm(ModelForm):
             'icon',
             'base_url',
             'extra_data_json',
+            'category',
             'enabled',
             'is_locked'
         ]

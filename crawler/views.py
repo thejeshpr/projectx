@@ -15,7 +15,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, F
 
 from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON
 from .invoke_backend import InvokeBackend
-from .models import SiteConf, ConfigValues, Job, Task
+from .models import SiteConf, ConfigValues, Job, Task, Category
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -122,6 +122,7 @@ class ConfigValuesCreateView(CreateView):
     model = ConfigValues
     form_class = ConfigValuesCreateForm
     template_name = 'crawler/config_values/create.html'
+    success_url = reverse_lazy('crawler:config-value-list')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -145,6 +146,13 @@ class ConfigValuesEditView(UpdateView):
     model = ConfigValues
     form_class = ConfigValuesCreateForm
     template_name = 'crawler/config_values/edit.html'
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class ConfigValuesDeleteView(DeleteView):
+    model = ConfigValues
+    success_url = reverse_lazy('crawler:config-values-list')
+    template_name = 'crawler/generic/delete.html'
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -212,8 +220,10 @@ def duplicate_site_conf(request, pk):
     # sc: SiteConf = get_object_or_404(SiteConf, pk=pk)
     original_obj = get_object_or_404(SiteConf, pk=pk)
     obj_dict = model_to_dict(original_obj)
+    # obj_dict.category = original_obj.category
     obj_dict.pop('id')  # remove the ID field to avoid duplication
-    new_obj = SiteConf(**obj_dict)
+    obj_dict.pop('category')
+    new_obj = SiteConf(**obj_dict, category=original_obj.category)
 
     new_uuid = uuid.uuid4()
 
@@ -222,7 +232,7 @@ def duplicate_site_conf(request, pk):
 
     new_obj.name = f"{new_obj.name} - Copy({short_uuid})"
     new_obj.save()
-    return redirect(reverse_lazy('crawler:siteconf-detail', kwargs=dict(pk=new_obj.pk)))
+    return redirect(reverse_lazy('crawler:siteconf-edit', kwargs=dict(pk=new_obj.pk)))
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -252,10 +262,12 @@ class TaskListViewBySiteConf(ListView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['site_conf'] = SiteConf.objects.get(pk=self.kwargs.get('siteconf_pk'))
+        context['extra_info'] = context['site_conf']
         return context
 
     def get_queryset(self):
         return Task.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')
+
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -269,8 +281,14 @@ class BookmarkTaskListViewBySiteConf(ListView):
     def get_queryset(self):
         return Task.objects.filter(is_bookmarked=True).order_by('-created_at', '-pk')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the category object to the context
+        context['extra_info'] = 'Bookmarks'
+        return context
 
 
+@login_required(login_url='/login/')
 def toggle_bookmark(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.is_bookmarked = not task.is_bookmarked
@@ -286,3 +304,63 @@ def toggle_bookmark(request, pk):
     #     return JsonResponse({"status": "ok", "action": action})
     # else:
     #     return JsonResponse({"status": "error", "desc": "task not found"})
+
+
+
+# from django.views.generic import CreateView, UpdateView, ListView, DeleteView
+# from django.urls import reverse_lazy
+# from .models import Category
+
+class CategoryCreateView(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'crawler/category/create.html'
+
+
+class CategoryEditView(UpdateView):
+    model = Category
+    fields = ['name']
+    context_object_name = "category"
+    template_name = 'crawler/category/edit.html'
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'crawler/category/list.html'
+    context_object_name = 'categories'
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    success_url = reverse_lazy('crawler:category-list')
+    template_name = 'crawler/generic/delete.html'
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'crawler/category/detail.html'
+    context_object_name = 'category'
+
+
+class TasksByCategory(ListView):
+    model = Task
+    context_object_name = 'tasks'
+    paginate_by = 25
+    template_name = 'crawler/task/list.html'
+
+    def get_queryset(self):
+        # Get the category pk from the url
+        category_pk = self.kwargs.get('pk')
+
+        # Get the category object
+        category = Category.objects.get(pk=category_pk)
+
+        # Get all tasks linked to siteConf objects that are linked to the category
+        tasks = Task.objects.filter(site_conf__category=category).order_by('-created_at')
+        return tasks
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the category object to the context
+        context['extra_info'] = Category.objects.get(pk=self.kwargs.get('pk'))
+        return context

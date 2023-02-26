@@ -4,7 +4,7 @@
 
 {% block content %}
     <div>
-        <h6>List of Tasks</h6>
+        <h6>List of Config Values</h6>
     </div>
 
     {% for cv in config_values %}
@@ -14,6 +14,12 @@
         <h5 class="card-title">
             {{ cv.pk }}. {{ cv.key }} :: ********
         </h5>
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'crawler:config-value-edit' pk=cv.pk %}">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+          <a class="btn btn-sm btn-outline-danger" href="{% url 'crawler:config-value-delete' pk=cv.pk %}">
+              <i class="bi bi-pencil"></i> Delete
+            </a>
       </div>
     </div>
     <br/>

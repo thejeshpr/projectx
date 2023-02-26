@@ -4,8 +4,24 @@ import uuid
 from django.urls import reverse
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        super(Category, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('crawler:category-detail', kwargs={"pk": self.pk})
+
+
 class SiteConf(models.Model):
     base_url = models.CharField(max_length=250, blank=True, null=True)
+    category = models.ForeignKey('category', on_delete=models.SET_NULL, related_name='site_confs', blank=True,
+                                 null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     enabled = models.BooleanField(default=True)
     extra_data_json = models.CharField(max_length=2000, blank=True, null=True)
@@ -74,6 +90,12 @@ class ConfigValues(models.Model):
     key = models.CharField(max_length=20, blank=True, null=True, unique=True)
     val = models.CharField(max_length=250, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.key
+
+    def __repr__(self):
+        return f'<Task: {self.key}>'
 
     def save(self, *args, **kwargs):
         self.key = self.key.lower()

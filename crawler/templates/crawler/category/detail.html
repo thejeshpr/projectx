@@ -1,0 +1,20 @@
+{% extends 'crawler/base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>{{ category.name }}</h2>
+        <hr>
+      </div>
+      <div class="col-sm-6">
+        <p><strong>Name:</strong> {{ category.name }}</p>
+        <p><strong>Description:</strong> {{ category.description }}</p>
+      </div>
+      <div class="col-sm-6 text-right">
+        <a href="{% url 'crawler:category-edit' category.id %}" class="btn btn-primary">Edit</a>
+        <a class="btn btn-danger" href="{% url 'crawler:category-delete' category.pk %}">Delete</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -20,6 +20,7 @@ urlpatterns = [
     path('config-value/new', views.ConfigValuesCreateView.as_view(), name='config-value-create'),
     path('config-value/<pk>', views.ConfigValuesDetailView.as_view(), name='config-value-detail'),
     path('config-value/<pk>/edit', views.ConfigValuesEditView.as_view(), name='config-value-edit'),
+    path('config-value/<pk>/delete', views.ConfigValuesDeleteView.as_view(), name='config-value-delete'),
 
     path('job/', views.JobListView.as_view(), name='job-list'),
     path('job/<pk>', views.JobDetailView.as_view(), name='job-detail'),
@@ -29,6 +30,13 @@ urlpatterns = [
     path('bookmarks', views.BookmarkTaskListViewBySiteConf.as_view(), name='bookmarks'),
 
     path('scrape/<pk>', views.scrape, name='scrape'),
+
+    path('category/new', views.CategoryCreateView.as_view(), name='category-create'),
+    path('category/<pk>', views.CategoryDetailView.as_view(), name='category-detail'),
+    path('category/<pk>/edit/', views.CategoryEditView.as_view(), name='category-edit'),
+    path('category/', views.CategoryListView.as_view(), name='category-list'),
+    path('category/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category-delete'),
+    path('category/<int:pk>/tasks/', views.TasksByCategory.as_view(), name='category-tasks'),
 
 ]
 
