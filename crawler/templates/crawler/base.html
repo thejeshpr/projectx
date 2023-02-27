@@ -87,6 +87,15 @@
             <li><a class="dropdown-item" href="{% url 'crawler:category-create' %}">New Category</a></li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-other" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Other
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown-other">
+            <li><a class="dropdown-item" href="{% url 'crawler:data-dump' %}">Data Dump</a></li>
+            <li><a class="dropdown-item" href="{% url 'crawler:data-bulk-create' %}">Bulk Create</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

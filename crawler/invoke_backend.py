@@ -4,7 +4,7 @@ import subprocess
 from .models import SiteConf, Job
 
 
-class InvokeBackend():
+class InvokeBackend:
     """"""
     def __init__(self, site_conf, auto_start=True):
         self.site_conf = site_conf

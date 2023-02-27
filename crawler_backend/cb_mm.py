@@ -10,7 +10,7 @@ def scrape(obj: BaseParser):
     base_url = obj.site_conf.base_url
     soup = WebClient.get_soup_phjs(base_url)
 
-    divs = soup.find_all('div', {'class':'entry-grid-content hgrid-span-12'})
+    divs = soup.find_all('div', {'class': 'entry-grid-content hgrid-span-12'})
 
     for div in divs[::-1]:
         h2 = div.find("h2", {"class": "entry-title"})
@@ -20,8 +20,8 @@ def scrape(obj: BaseParser):
         name = a.text.strip()
 
         desc_div = div.find("div", {"class": "entry-summary"})
-        if desc_div:
-            desc = desc_div.text.strip()
+
+        desc = desc_div.text.strip() if desc_div else None
 
         obj.create_task(
             unique_key=url,

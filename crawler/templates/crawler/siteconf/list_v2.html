@@ -22,6 +22,11 @@
                         <i class="las la-spider"></i> <a style="color: green; font-size:18px;" href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><b><code style="color: green;">{{ site_conf.id }}::{{ site_conf.name }}</code></b></a><br/>
                         <code style="color: gray;">
                             <i class="lab la-python"></i> CB: {{ site_conf.scraper_name }}<br/>
+                            {% if site_conf.category %}
+                            <i class="las la-object-group"></i> category: <a style="color:gray;" href="{% url 'crawler:category-tasks' pk=site_conf.category.pk %}">
+                            {{site_conf.category.name}}
+                            </a><br/>
+                            {% endif %}
                             <i class="las la-spinner"></i> jobs: <a  style="color:gray;" href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">{{ site_conf.jobs.count }}</a><br/>
                             <i class="las la-tasks"></i> tasks: <a style="color:gray;" href="{% url 'crawler:siteconf-tasks' site_conf.pk %}">{{ site_conf.tasks.count }}</a><br/>
                             <i class="las la-sync"></i> last sync:
