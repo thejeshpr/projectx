@@ -59,6 +59,7 @@ class ExtraTaskDataAdmin(admin.ModelAdmin):
 class ConfigValuesAdmin(admin.ModelAdmin):
     list_display = ('id', 'created_at', 'key', 'val', 'updated_at')
     list_filter = ('created_at', 'updated_at')
+    search_fields = ('key',)
     date_hierarchy = 'created_at'
 
 

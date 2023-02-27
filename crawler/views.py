@@ -368,14 +368,30 @@ class TasksByCategory(ListView):
 
 @login_required(login_url='/login/')
 def data_dump(request):
-    site_confs = SiteConf.objects.all()
-    data = list()
-    for site_conf in site_confs:
-        dict_data = model_to_dict(site_conf)
-        if dict_data['category']:
-            dict_data['category'] = Category.objects.get(pk=dict_data['category']).name
-        data.append(dict_data)
-    return JsonResponse({"data": data})
+    categories = list(Category.objects.values('name'))
+    config_values = list(ConfigValues.objects.values('key', 'val'))
+
+    site_confs = list(SiteConf.objects.values(
+        'name',
+        'scraper_name',
+        'icon',
+        'base_url',
+        'extra_data_json',
+        'enabled',
+        'category__name'
+    ))
+    # site_confs = SiteConf.objects.all()
+    # site_confs_data = list()
+    # for site_conf in site_confs:
+    #     dict_data = model_to_dict(site_conf)
+    #     if dict_data['category']:
+    #         dict_data['category'] = Category.objects.get(pk=dict_data['category']).name
+    #     site_confs_data.append(dict_data)
+    return JsonResponse({
+        "categories": categories,
+        "config_values": config_values,
+        "site_confs": site_confs
+    })
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -387,9 +403,25 @@ class DataBulkCreate(FormView):
     def form_valid(self, form):
         data = json.loads(form.cleaned_data.get("data"))
         objs = list()
-        for entry in data['data']:
+
+        # create categories
+        for entry in data['categories']:
+            print("createing: ", entry.get('name') + " TEST")
+            Category.objects.get_or_create(name=entry.get('name') + " TEST")
+
+        # create config-values
+        for entry in data['config_values']:
+            print("createing: ", entry.get('key') + " TEST")
+            ConfigValues.objects.get_or_create(
+                key=entry.get('key') + " TEST",
+                val=entry.get('val'),
+            )
+
+        # create site_confs
+        for entry in data['site_confs']:
+            print("createing: ", entry.get('name') + " TEST")
             if entry.get('category'):
-                cat, _ = Category.objects.get_or_create(name=entry.get('category'))
+                cat = Category.objects.get(name=entry.get('category'))
             else:
                 cat = None
 
