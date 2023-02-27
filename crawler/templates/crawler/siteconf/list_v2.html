@@ -1,0 +1,49 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+    <div>
+        <h6>SiteConfs</h6>
+    </div>
+
+    <div class="card">
+      <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SiteConf</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for site_conf in site_confs %}
+                <tr>
+                    <td>
+                        <i class="las la-spider"></i> <a style="color: green; font-size:18px;" href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><b><code style="color: green;">{{ site_conf.id }}::{{ site_conf.name }}</code></b></a><br/>
+                        <code style="color: gray;">
+                            <i class="lab la-python"></i> CB: {{ site_conf.scraper_name }}<br/>
+                            <i class="las la-spinner"></i> jobs: <a  style="color:gray;" href="{% url 'crawler:siteconf-jobs' site_conf.pk %}">{{ site_conf.jobs.count }}</a><br/>
+                            <i class="las la-tasks"></i> tasks: <a style="color:gray;" href="{% url 'crawler:siteconf-tasks' site_conf.pk %}">{{ site_conf.tasks.count }}</a><br/>
+                            <i class="las la-sync"></i> last sync:
+                            {% if site_conf.jobs.last %}
+                                <a style="color:gray;" href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">{{ site_conf.jobs.last.created_at | date:"d/m/Y h:i A" }}</a>
+                            {% else %}
+                                Never
+                            {% endif %}
+                        </code>
+                    </td>
+                    <td>
+                        <a class="btn-sm btn btn-outline-success mt-1" href="{% url 'crawler:scrape' site_conf.pk %}?redirect_to_job=yes" target="_blank"><i class="fas fa-sync"></i></a>
+                        <a class="btn-sm btn btn-outline-primary mt-1" href="{% url 'crawler:siteconf-edit' site_conf.pk %}"><i class="fas fa-edit"></i></a>
+                        <a class="btn-sm btn btn-outline-secondary mt-1" href="{% url 'crawler:siteconf-duplicate' site_conf.pk %}" onclick="return confirm('Are you sure you want to Duplicate?');"><i class="las la-copy"></i></a>
+                        <a class="btn-sm btn btn-outline-danger mt-1" href="{% url 'crawler:siteconf-delete' site_conf.pk %}"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% include "crawler/generic/pagination.html" %}
+
+{% endblock %}

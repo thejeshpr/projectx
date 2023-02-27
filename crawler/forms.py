@@ -56,3 +56,17 @@ class SiteConfFormByJSON(forms.Form):
     #         enabled=json_data.get("enabled"),
     #         is_locked=json_data.get("is_locked")
     #     )
+
+
+class BulkCreateForm(forms.Form):
+    data = forms.CharField(widget=forms.Textarea)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        data = self.cleaned_data.get("data")
+        if data:
+            try:
+                _ = json.loads(data)
+            except Exception as e:
+                self.add_error(None, ValidationError(f"Invalid JSON Data: {e}"))
+        return cleaned_data

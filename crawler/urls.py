@@ -38,6 +38,9 @@ urlpatterns = [
     path('category/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category-delete'),
     path('category/<int:pk>/tasks/', views.TasksByCategory.as_view(), name='category-tasks'),
 
+    path('data/dump/', views.data_dump, name='data-dump'),
+    path('data/bulk-create/', views.DataBulkCreate.as_view(), name='data-bulk-create'),
+
 ]
 
 # urlpatterns = [

@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView, DeleteView
 
-from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON
+from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON, BulkCreateForm
 from .invoke_backend import InvokeBackend
 from .models import SiteConf, ConfigValues, Job, Task, Category
 
@@ -54,9 +54,9 @@ class SiteConfDetailView(DetailView):
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class SiteConfListView(ListView):
     model = SiteConf
-    template_name = 'crawler/siteconf/list.html'
+    template_name = 'crawler/siteconf/list_v2.html'
     context_object_name = 'site_confs'
-    paginate_by = 25
+    paginate_by = 50
     queryset = SiteConf.objects.all().order_by('-created_at')
 
     # CODE for fetching last job status of each site conf
@@ -269,7 +269,6 @@ class TaskListViewBySiteConf(ListView):
         return Task.objects.filter(site_conf__pk=self.kwargs.get('siteconf_pk')).order_by('-created_at', '-pk')
 
 
-
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class BookmarkTaskListViewBySiteConf(ListView):
     model = Task
@@ -306,17 +305,14 @@ def toggle_bookmark(request, pk):
     #     return JsonResponse({"status": "error", "desc": "task not found"})
 
 
-
-# from django.views.generic import CreateView, UpdateView, ListView, DeleteView
-# from django.urls import reverse_lazy
-# from .models import Category
-
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class CategoryCreateView(CreateView):
     model = Category
     fields = ['name']
     template_name = 'crawler/category/create.html'
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class CategoryEditView(UpdateView):
     model = Category
     fields = ['name']
@@ -324,24 +320,28 @@ class CategoryEditView(UpdateView):
     template_name = 'crawler/category/edit.html'
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class CategoryListView(ListView):
     model = Category
     template_name = 'crawler/category/list.html'
     context_object_name = 'categories'
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('crawler:category-list')
     template_name = 'crawler/generic/delete.html'
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class CategoryDetailView(DetailView):
     model = Category
     template_name = 'crawler/category/detail.html'
     context_object_name = 'category'
 
 
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
 class TasksByCategory(ListView):
     model = Task
     context_object_name = 'tasks'
@@ -364,3 +364,44 @@ class TasksByCategory(ListView):
         # Add the category object to the context
         context['extra_info'] = Category.objects.get(pk=self.kwargs.get('pk'))
         return context
+
+
+@login_required(login_url='/login/')
+def data_dump(request):
+    site_confs = SiteConf.objects.all()
+    data = list()
+    for site_conf in site_confs:
+        dict_data = model_to_dict(site_conf)
+        if dict_data['category']:
+            dict_data['category'] = Category.objects.get(pk=dict_data['category']).name
+        data.append(dict_data)
+    return JsonResponse({"data": data})
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class DataBulkCreate(FormView):
+    template_name = 'crawler/generic/data_bulk_create.html'
+    form_class = BulkCreateForm
+    success_url = reverse_lazy('crawler:siteconf-list')
+
+    def form_valid(self, form):
+        data = json.loads(form.cleaned_data.get("data"))
+        objs = list()
+        for entry in data['data']:
+            if entry.get('category'):
+                cat, _ = Category.objects.get_or_create(name=entry.get('category'))
+            else:
+                cat = None
+
+            objs.append(SiteConf(
+                name=entry.get("name") + "TEST",
+                scraper_name=entry.get("scraper_name"),
+                icon=entry.get("icon"),
+                base_url=entry.get("base_url"),
+                extra_data_json=entry.get("extra_data_json"),
+                enabled=entry.get("enabled"),
+                is_locked=False,
+                category=cat
+            ))
+        SiteConf.objects.bulk_create(objs)
+        return super().form_valid(form)
