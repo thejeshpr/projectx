@@ -3,13 +3,13 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div>
-        <h6>SiteConfs</h6>
-    </div>
+<!--    <div>-->
+<!--        <h6>SiteConfs</h6>-->
+<!--    </div>-->
 
-    <div class="card">
-      <table class="table table-bordered">
-        <thead>
+    <div style="background: #121212;" class="card">
+      <table class="table table-bordered" style="border-color:black;">
+        <thead style="color: white;">
             <tr>
                 <th>SiteConf</th>
                 <th>Action</th>
@@ -19,7 +19,7 @@
             {% for site_conf in site_confs %}
                 <tr>
                     <td>
-                        <i class="las la-spider"></i> <a style="color: green; font-size:18px;" href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><b><code style="color: green;">{{ site_conf.id }}::{{ site_conf.name }}</code></b></a><br/>
+                        <i style="color: grey;" class="las la-spider"></i> <a style="color: green; font-size:18px;" href="{% url 'crawler:siteconf-detail' site_conf.pk %}"><b><code style="color: green;">{{ site_conf.id }}::{{ site_conf.name }}</code></b></a><br/>
                         <code style="color: gray;">
                             <i class="lab la-python"></i> CB: {{ site_conf.scraper_name }}<br/>
                             {% if site_conf.category %}

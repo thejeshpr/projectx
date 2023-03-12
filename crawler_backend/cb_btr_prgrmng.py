@@ -22,7 +22,6 @@ def scrape(obj: BaseParser):
                     title = h2.text.strip()
 
                     links.append(link)
-                    print(title)
                     obj.create_task(
                         unique_key=link,
                         name=title,

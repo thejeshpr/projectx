@@ -93,9 +93,33 @@ DATABASES = {
 }
 
 DATABASE_URL = os.environ.get('CUSTOM_DATABASE_URL')
-if DATABASE_URL:
-    db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-    DATABASES['default'].update(db_from_env)
+# DATABASE_URL = os.environ.get('CUSTOM_DATABASE_URL')
+# if DATABASE_URL:
+#     db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+#     DATABASES['default'].update(db_from_env)
+
+DATABASES = {
+    'default': {
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+        # If connecting with SSL, include the section below, replacing the
+        # file paths as appropriate.
+        'OPTIONS': {
+            # 'sslmode': 'verify-full',
+            # 'sslrootcert': '/certs/ca.crt',
+            # Either sslcert and sslkey (below) or PASSWORD (above) is
+            # required.
+            # 'sslcert': '/certs/client.myprojectuser.crt',
+            # 'sslkey': '/certs/client.myprojectuser.key',
+            # If applicable
+            # 'options': '--cluster={routing-id}',
+        },
+    },
+}
 
 
 # Password validation

@@ -151,7 +151,7 @@ class ConfigValuesEditView(UpdateView):
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class ConfigValuesDeleteView(DeleteView):
     model = ConfigValues
-    success_url = reverse_lazy('crawler:config-values-list')
+    success_url = reverse_lazy('crawler:config-value-list')
     template_name = 'crawler/generic/delete.html'
 
 

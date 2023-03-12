@@ -67,9 +67,9 @@ class Task(models.Model):
     job = models.ForeignKey('Job', on_delete=models.CASCADE, related_name='tasks')
     name = models.CharField(max_length=500)
     site_conf = models.ForeignKey('SiteConf', on_delete=models.CASCADE, related_name='tasks')
-    unique_key = models.CharField(max_length=250, unique=True)
+    unique_key = models.CharField(max_length=2500, unique=True)
     updated_at = models.DateTimeField(auto_now=True)
-    url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True, max_length=2500)
 
     def __str__(self):
         return self.name

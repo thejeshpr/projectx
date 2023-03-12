@@ -1,0 +1,370 @@
+{
+"categories": [
+{
+"name": "news"
+},
+{
+"name": "other"
+},
+{
+"name": "test"
+},
+{
+"name": "chatgpt"
+},
+{
+"name": "dev"
+}
+],
+"config_values": [
+{
+"key": "key",
+"val": "VAL1"
+},
+{
+"key": "phantom_js_key",
+"val": "ak-2a45k-g1m7c-awj2n-qvsk1-evnxx"
+},
+{
+"key": "phantom_js_url",
+"val": "https://phantomjscloud.com/api/browser/v2/{key}/"
+},
+{
+"key": "key1",
+"val": "val2"
+},
+{
+"key": "key2",
+"val": "val2"
+},
+{
+"key": "key3",
+"val": "val3"
+},
+{
+"key": "nwsapi_key",
+"val": "0b35f27a945e4a538d60bc86bdfff353"
+},
+{
+"key": "gnews_key",
+"val": "8e7b44c779313443f952b21c5baa5fb8"
+}
+],
+"site_confs": [
+{
+"name": "github trending repos",
+"scraper_name": "cb_gh_trending",
+"icon": "las la-question-circle",
+"base_url": "https://gh-trending-api.herokuapp.com/repositories",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "bkdko",
+"scraper_name": "cb_bkdko",
+"icon": "las la-question-circle",
+"base_url": "https://www.bikedekho.com/news",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "crdko",
+"scraper_name": "cb_crdko",
+"icon": "las la-question-circle",
+"base_url": "https://www.cardekho.com/india-car-news.htm",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "mastmaga",
+"scraper_name": "cb_mm",
+"icon": "las la-question-circle",
+"base_url": "https://masthmagaa.com/category/important-news/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "news"
+},
+{
+"name": "dev2 python",
+"scraper_name": "cb_d2",
+"icon": "las la-question-circle",
+"base_url": "https://dev.to/t/",
+"extra_data_json": "{\"tag\":\"python\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "dev2 kubernetes",
+"scraper_name": "cb_d2",
+"icon": "las la-question-circle",
+"base_url": "https://dev.to/t/",
+"extra_data_json": "{\"tag\":\"kubernetes\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "dev2 docker",
+"scraper_name": "cb_d2",
+"icon": "las la-question-circle",
+"base_url": "https://dev.to/t/",
+"extra_data_json": "{\"tag\":\"docker\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "reddit",
+"scraper_name": "rdt",
+"icon": "las la-question-circle",
+"base_url": "https://old.reddit.com/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "reddit python",
+"scraper_name": "rdt",
+"icon": "las la-question-circle",
+"base_url": "https://old.reddit.com/r/Python/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "reddit docker",
+"scraper_name": "cb_rdt",
+"icon": "las la-question-circle",
+"base_url": "https://old.reddit.com/r/docker/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "spinny cars",
+"scraper_name": "cb_spny",
+"icon": "las la-question-circle",
+"base_url": "https://api.spinny.com/sp-consumer-search/product/listing/?city=bangalore&product_type=cars&category=used&page=1",
+"extra_data_json": "{\"item_base_url\": \"https://www.spinny.com/\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "ng",
+"scraper_name": "cb_ng",
+"icon": "las la-question-circle",
+"base_url": "https://9gag.com/v1/group-posts/group/{grp}/type/{typ}",
+"extra_data_json": "{\"grp\":\"funny\", \"typ\":\"fresh\"}",
+"enabled": true,
+"category__name": "other"
+},
+{
+"name": "realpython",
+"scraper_name": "cb_rp",
+"icon": "las la-question-circle",
+"base_url": "https://realpython.com/search/api/v1/?order=newest",
+"extra_data_json": "{\"item_base_url\": \"https://realpython.com/\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "dzone",
+"scraper_name": "cb_dzne",
+"icon": "las la-question-circle",
+"base_url": "https://dzone.com/services/widget/article-listV2/list?sort=newest",
+"extra_data_json": "{\"article_base_url\":\"https://dzone.com/\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "boredpanda/animals",
+"scraper_name": "cb_bpanda",
+"icon": "las la-question-circle",
+"base_url": "https://www.boredpanda.com/{category}/?show={type}",
+"extra_data_json": "{\"category\":\"animals\", \"type\": \"trending\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "twrds",
+"scraper_name": "cb_twrds",
+"icon": "las la-question-circle",
+"base_url": "https://towardsdatascience.com/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "dev2 chatgpt",
+"scraper_name": "cb_d2",
+"icon": "las la-question-circle",
+"base_url": "https://dev.to/t/",
+"extra_data_json": "{\"tag\":\"chatgpt\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "dev2 nodejs",
+"scraper_name": "cb_d2",
+"icon": "las la-question-circle",
+"base_url": "https://dev.to/t/",
+"extra_data_json": "{\"tag\":\"nodejs\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "frefrdv",
+"scraper_name": "cb_ffd",
+"icon": "las la-question-circle",
+"base_url": "https://www.trackawesomelist.com/ripienaar/free-for-dev/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "brblg",
+"scraper_name": "cb_brblg",
+"icon": "las la-question-circle",
+"base_url": "https://bearblog.dev/discover/?newest=true",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "brblg - trending",
+"scraper_name": "cb_brblg",
+"icon": "las la-question-circle",
+"base_url": "https://bearblog.dev/discover/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode trnd - wkly",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/post/get-top-posts?duration=7",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode trnd - monthly",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/post/get-top-posts?duration=30",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode trndg - chatgpt",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/feed/tag/chatgpt?type=hot&page=1",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode python",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/feed/tag/python?type=hot&page=1",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode rcnt - chatgpt",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/feed/tag/chatgpt?type=recent&page=1",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "chatgpt"
+},
+{
+"name": "hnode rcnt - all",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/feed/recent?page=1",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "hnode ftrd - all",
+"scraper_name": "cb_hnode_trnd",
+"icon": "las la-question-circle",
+"base_url": "https://hashnode.com/api/feed/featured?page=1",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "boredpanda/photography",
+"scraper_name": "cb_bpanda",
+"icon": "las la-question-circle",
+"base_url": "https://www.boredpanda.com/{category}/?show={type}",
+"extra_data_json": "{\"category\":\"photography\", \"type\": \"trending\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "boredpanda/funny",
+"scraper_name": "cb_bpanda",
+"icon": "las la-question-circle",
+"base_url": "https://www.boredpanda.com/{category}/?show={type}",
+"extra_data_json": "{\"category\":\"funny\", \"type\": \"trending\"}",
+"enabled": true,
+"category__name": null
+},
+{
+"name": "gdev",
+"scraper_name": "cb_gdev",
+"icon": "las la-question-circle",
+"base_url": "https://developers.googleblog.com/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": null
+},
+{
+"name": "nwsapi/us",
+"scraper_name": "cb_nwsapi",
+"icon": "las la-question-circle",
+"base_url": "https://newsapi.org/v2/top-headlines?country=us&apiKey={key}&pageSize=100",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "news"
+},
+{
+"name": "nwsapi/in",
+"scraper_name": "cb_nwsapi",
+"icon": "las la-question-circle",
+"base_url": "https://newsapi.org/v2/top-headlines?country=in&apiKey={key}&pageSize=100",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "news"
+},
+{
+"name": "better programing",
+"scraper_name": "cb_btr_prgrmng",
+"icon": "las la-question-circle",
+"base_url": "https://betterprogramming.pub/",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "dev"
+},
+{
+"name": "gnews",
+"scraper_name": "cb_gnews",
+"icon": "las la-question-circle",
+"base_url": "https://gnews.io/api/v4/top-headlines?category=general&apikey={api_key}&lang=en",
+"extra_data_json": null,
+"enabled": true,
+"category__name": "news"
+}
+]
+}
