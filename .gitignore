@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 
-.test_data/
-.test/
+/test_data/
+/test/
