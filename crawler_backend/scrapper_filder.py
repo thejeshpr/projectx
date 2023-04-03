@@ -11,6 +11,7 @@ def get_scrapper(name):
 
     parent_path = os.path.dirname(os.path.realpath(__file__))
     base_path = os.path.dirname(parent_path)
+    #base_path = "/home/ubuntu/pyenvs/projectx_dev/src/projectx/crawler_backend"
     files = os.listdir(parent_path)
     # files = os.listdir("./crawler_backend")
     # print(parent_path, base_path)

@@ -23,8 +23,9 @@ class InvokeBackend:
     def invoke_backend_crawler(self):
         parent_path = os.path.dirname(os.path.realpath(__file__))
         base_path = os.path.dirname(parent_path)
+        #base_path = "/home/ubuntu/pyenvs/projectx_dev/src/projectx"
         script_path = os.path.join(base_path, 'crawler_backend', 'base.py')
-        cmd = f'python "{script_path}" {self.job.id}'
+        cmd = f'/home/ubuntu/pyenvs/projectx_dev/bin/python "{script_path}" {self.job.id}'
         o = subprocess.Popen(cmd, shell=True)
 
 

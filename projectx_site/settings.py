@@ -33,7 +33,7 @@ if ENV_FLAG and ENV_FLAG.lower() == "prod":
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get('DNS_HOSTNAME')]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.environ.get('DNS_HOSTNAME'), '144.24.144.69']
 
 
 # Application definition

@@ -22,6 +22,7 @@ base_path = os.path.dirname(parent_path)
 # print(parent_path, base_path)
 
 sys.path.append(base_path)
+#sys.path.append("/home/ubuntu/pyenvs/projectx_dev/src/projectx")
 # sys.path.append(r"./")
 # print(sys.path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
@@ -51,7 +52,6 @@ class BaseParser():
         self.job_start_time = time.time()
         self.site_conf: SiteConf = SiteConf.objects.get(pk=self.job.site_conf.pk)
         logging.debug(f"SiteConf: {self.site_conf.name}")
-
         logging.debug(f"starting execution")
         self.execute()
 
