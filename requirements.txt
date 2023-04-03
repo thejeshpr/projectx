@@ -42,3 +42,4 @@ zipp==3.8.1
 gunicorn==20.1.0
 whitenoise==5.3.0
 dj_database_url==1.0.0
+gunicorn
