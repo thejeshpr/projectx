@@ -22,7 +22,7 @@ base_path = os.path.dirname(parent_path)
 # print(parent_path, base_path)
 
 sys.path.append(base_path)
-#sys.path.append("/home/ubuntu/pyenvs/projectx_dev/src/projectx")
+# sys.path.append("/home/ubuntu/pyenvs/projectx_dev/src/projectx")
 # sys.path.append(r"./")
 # print(sys.path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectx_site.settings")
@@ -101,7 +101,7 @@ class BaseParser():
         unique_key = self.build_task_unique_key(unique_key)
         if not BaseParser.is_task_exist(unique_key):
             logging.debug(f"creating unique_key : {unique_key}")
-            _ = Task.objects.create(
+            return Task.objects.create(
                 unique_key=unique_key,
                 name=kwargs.get("name"),
                 url=kwargs.get("url"),
@@ -109,6 +109,8 @@ class BaseParser():
                 job=self.job,
                 site_conf=self.site_conf
             )
+        else:
+            return False
 
     def create_tasks(self, tasks):
         tasks_to_create = []
