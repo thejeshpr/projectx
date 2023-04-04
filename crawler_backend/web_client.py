@@ -55,6 +55,11 @@ class WebClient:
         content = WebClient.post_phjs(url=url, output_as_json="false", render_type="html")
         return BeautifulSoup(content, 'html.parser')
 
+    @staticmethod
+    def get_bs(url: str):
+        res = WebClient.get(url)
+        return BeautifulSoup(res.html.html, 'html.parser')
+
 
 
 
