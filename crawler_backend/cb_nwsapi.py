@@ -32,8 +32,9 @@ def scrape(obj: BaseParser):
                     data=article_extractor(url)
                 )
 
-                if created_obj:
-                    time.sleep(1)
+                # article extraction is not needed at this moment
+                # if created_obj:
+                #     time.sleep(1)
 
 
 def article_extractor(url):
