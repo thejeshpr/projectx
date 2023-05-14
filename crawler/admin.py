@@ -25,7 +25,7 @@ class SiteConfAdmin(admin.ModelAdmin):
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
     list_display = ('id', 'created_at', 'error', 'site_conf', 'status')
-    list_filter = ('created_at', 'site_conf')
+    list_filter = ('created_at', 'site_conf', 'status')
     date_hierarchy = 'created_at'
 
 

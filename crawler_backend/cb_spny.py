@@ -13,11 +13,20 @@ def scrape(obj: BaseParser):
     extras = json.loads(obj.site_conf.extra_data_json)
 
     for item in res.json().get('results'):
-        name = f"{item.get('fuel_type')}:{item.get('model')}:{item.get('make_year')}:{item.get('price')}"
+        name = f"{item.get('model')} - {item.get('price')}"
         url = urllib.parse.urljoin(extras.get("item_base_url"), item.get('permanent_url'))
+
+        data = f"Fuel: {item.get('fuel_type')}\n" \
+               f"Year: {item.get('make_year')}\n" \
+               f"Variant: {item.get('variant')}\n" \
+               f"KM: {item.get('mileage')}\n" \
+               f"Owner: {item.get('no_of_owners')}\n" \
+               f"Shortlist Count: {item.get('shortlist_count')}\n"
+
         obj.create_task(
             unique_key=item.get("id"),
             name=name,
             url=url,
+            data=data
         )
 

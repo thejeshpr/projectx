@@ -16,7 +16,7 @@
         </h5>
           <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
           {% if task.data %}
-            <code>{{ task.data }}</code>
+            <code>{{ task.data|linebreaks }}</code>
           {% endif %}
           <p class="text-muted">{{ task.site_conf }} | {{ task.created_at }}</p>
       </div>

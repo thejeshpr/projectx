@@ -21,7 +21,7 @@
           <p><i id="star-{{ task.id }}" class="lar la-bookmark bm-icon float-end"></i></p>
           {% endif %}
           {% if task.data %}
-            <code>{{ task.data }}</code>
+            <code>{{ task.data|linebreaks }}</code>
           {% endif %}
           <p class="text-muted">{{ task.site_conf }} | {{ task.created_at }}</p>
       </div>
