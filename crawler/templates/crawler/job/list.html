@@ -22,7 +22,6 @@
                         <a href="{% url 'crawler:job-detail' job.pk %}"><code style="color: green;">{{ job.id }}::{{ job.site_conf.name }}</code></a>
                         <a href="{% url 'crawler:siteconf-detail' job.site_conf.pk %}"><i class="las la-cog"></i></a><br/>
                         <span class="text-muted" style="font-size: 14px;"><i class="las la-calendar"></i>: {{ job.created_at }}</span>
-                        <span class="text-muted" style="font-size: 14px;"><i class="las la-calendar"></i>: {{ job.created_at }}</span>
                     </td>
                     <td>{% include './status.html' %} <code>{% if job.elapsed_time %}<span><i class="las la-clock"></i>{{ job.elapsed_time }}s</span>{% else %}<span>...</span>{% endif %}</code></td>
                 </tr>
