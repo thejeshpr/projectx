@@ -188,7 +188,7 @@ def scrape(request, pk):
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class Home(ListView):
     model = Job
-    template_name = 'crawler/home.html'
+    template_name = 'crawler/job/list.html'
     context_object_name = 'jobs'
     paginate_by = 100
     queryset = Job.objects.all().order_by('-created_at')
