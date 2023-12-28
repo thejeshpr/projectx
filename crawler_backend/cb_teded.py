@@ -14,10 +14,9 @@ def scrape(obj: BaseParser):
         # find links
         a = h2.find('a')
         if a:
-            url = urllib.parse.urljoin(base_url, a.attrs.get('href'))
             obj.create_task(
-                unique_key=url,
+                unique_key=a.attrs.get('href'),
                 name=a.text.strip(),
-                url=url
+                url=a.attrs.get('href')
             )
 
