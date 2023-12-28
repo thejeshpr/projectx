@@ -6,15 +6,15 @@ from crawler_backend import WebClient, BaseParser
 
 def scrape(obj: BaseParser):
     base_url = obj.site_conf.base_url
-    res = WebClient.post_phjs(base_url, return_json=True)
+    soup = WebClient.get_bs(base_url)
     extras = json.loads(obj.site_conf.extra_data_json)
 
-    posts = res['result']['data']['nodes'][::-1]
+    a_list = soup.find_all('a', {'class': 'article-title link-hover-underline-blue'})
 
-    for post in posts:
-        post['text'] = urllib.parse.urljoin(extras['article_base_url'], post.get('articleLink'))
+    for a in a_list:
+        article_url = urllib.parse.urljoin(extras['article_base_url'], a.get('href'))
         obj.create_task(
-            unique_key=post.get('id'),
-            name=post['title'],
-            url=post['text']
+            unique_key=article_url,
+            name=a.text.strip(),
+            url=article_url
         )
