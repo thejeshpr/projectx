@@ -1,5 +1,6 @@
 import json
 import urllib
+from urllib.parse import urlparse, urljoin
 
 from crawler_backend import WebClient, BaseParser
 
@@ -7,7 +8,7 @@ from crawler_backend import WebClient, BaseParser
 def scrape(obj: BaseParser):
     base_url = obj.site_conf.base_url
     soup = WebClient.get_bs(base_url)
-    # extras = json.loads(obj.site_conf.extra_data_json)
+    extras = json.loads(obj.site_conf.extra_data_json)
 
     articles = soup.find_all('article')
 
@@ -26,5 +27,5 @@ def scrape(obj: BaseParser):
         obj.create_task(
             unique_key=url,
             name=title,
-            url=url
+            url=f"{extras.get('artcile_base_url')}{url}"
         )
