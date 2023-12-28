@@ -57,7 +57,7 @@ class SiteConfListView(ListView):
     template_name = 'crawler/siteconf/list_v2.html'
     context_object_name = 'site_confs'
     paginate_by = 50
-    queryset = SiteConf.objects.all().order_by('-created_at')
+    # queryset = SiteConf.objects.all().order_by('-created_at')
 
     # CODE for fetching last job status of each site conf
     # from django.db.models import Max, Subquery, OuterRef
@@ -80,9 +80,10 @@ class SiteConfListView(ListView):
         #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
         # print(jobs_dict)
         #print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
-
-
         return context
+
+    def get_queryset(self):
+        return SiteConf.objects.filter(ns_flag=False).order_by('-created_at', '-pk')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -105,7 +106,7 @@ class JobListView(ListView):
     template_name = 'crawler/job/list.html'
     context_object_name = 'jobs'
     paginate_by = 100
-    queryset = Job.objects.all().order_by('-created_at')
+    queryset = Job.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -114,7 +115,7 @@ class TaskListView(ListView):
     template_name = 'crawler/task/list.html'
     context_object_name = 'tasks'
     paginate_by = 25
-    queryset = Task.objects.all().order_by('-created_at')
+    queryset = Task.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -437,3 +438,58 @@ class DataBulkCreate(FormView):
             ))
         SiteConf.objects.bulk_create(objs)
         return super().form_valid(form)
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class SiteConfListView_NS(ListView):
+    model = SiteConf
+    template_name = 'crawler/siteconf/list_v2.html'
+    context_object_name = 'site_confs'
+    paginate_by = 50
+    queryset = SiteConf.objects.all().order_by('-created_at')
+
+    # CODE for fetching last job status of each site conf
+    # from django.db.models import Max, Subquery, OuterRef
+    #
+    # siteconfs_with_last_job_status = SiteConf.objects.annotate(
+    #     last_job_status=Subquery(
+    #         Job.objects.filter(
+    #             site_conf_id=OuterRef('pk')
+    #         ).order_by('-created_at').values('status')[:1]
+    #     )
+    # )
+    # for siteconf in siteconfs_with_last_job_status:
+    #     print(siteconf.name, siteconf.last_job_status)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # jobs_dict = dict()
+        # for sc in context["site_confs"]:
+        #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
+        # print(jobs_dict)
+        #print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
+
+
+        return context
+
+    def get_queryset(self):
+        return SiteConf.objects.filter(ns_flag=True).order_by('-created_at', '-pk')
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class JobListView_NS(ListView):
+    model = Job
+    template_name = 'crawler/job/list.html'
+    context_object_name = 'jobs'
+    paginate_by = 100
+    queryset = Job.objects.filter(site_conf__ns_flag=True).order_by('-created_at')
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class TaskListView_NS(ListView):
+    model = Task
+    template_name = 'crawler/task/list.html'
+    context_object_name = 'tasks'
+    paginate_by = 25
+    queryset = Task.objects.filter(site_conf__ns_flag=True).order_by('-created_at')

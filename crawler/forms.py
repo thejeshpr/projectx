@@ -19,6 +19,7 @@ class SiteConfCreateForm(ModelForm):
             'extra_data_json',
             'category',
             'enabled',
+            'ns_flag',
             'is_locked'
         ]
 

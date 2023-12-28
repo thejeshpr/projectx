@@ -41,6 +41,11 @@ urlpatterns = [
     path('data/dump/', views.data_dump, name='data-dump'),
     path('data/bulk-create/', views.DataBulkCreate.as_view(), name='data-bulk-create'),
 
+    ### NF
+    path('siteconf-ns/', views.SiteConfListView_NS.as_view(), name='siteconf-ns-list'),
+    path('job-ns/', views.JobListView_NS.as_view(), name='job-ns-list'),
+    path('task-ns/', views.TaskListView_NS.as_view(), name='task-ns-list'),
+
 ]
 
 # urlpatterns = [

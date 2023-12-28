@@ -28,6 +28,7 @@ class SiteConf(models.Model):
     icon = models.CharField(max_length=50, default='las la-question-circle', blank=True, null=True)
     is_locked = models.BooleanField(default=False)
     name = models.CharField(max_length=50, unique=True)
+    ns_flag = models.BooleanField(default=False)
     scraper_name = models.CharField(max_length=25, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
