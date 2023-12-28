@@ -192,7 +192,7 @@ class Home(ListView):
     template_name = 'crawler/job/list.html'
     context_object_name = 'jobs'
     paginate_by = 100
-    queryset = Job.objects.filter(site_conf__ns_flag=True).order_by('-created_at')
+    queryset = Job.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
