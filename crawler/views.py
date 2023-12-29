@@ -1,5 +1,6 @@
 import json
 import uuid
+from datetime import datetime
 
 from typing import Any, Dict
 
@@ -10,6 +11,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.utils.timezone import now, timedelta
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView, DeleteView
 
@@ -59,6 +61,7 @@ class SiteConfListView(ListView):
     template_name = 'crawler/siteconf/list_v2.html'
     context_object_name = 'site_confs'
     paginate_by = 50
+
     # queryset = SiteConf.objects.all().order_by('-created_at')
 
     # CODE for fetching last job status of each site conf
@@ -81,7 +84,7 @@ class SiteConfListView(ListView):
         # for sc in context["site_confs"]:
         #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
         # print(jobs_dict)
-        #print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
+        # print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
         return context
 
     def get_queryset(self):
@@ -470,8 +473,7 @@ class SiteConfListView_NS(ListView):
         # for sc in context["site_confs"]:
         #     jobs_dict[sc.pk] = sc.jobs.all().order_by('-created_at')[:5]
         # print(jobs_dict)
-        #print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
-
+        # print(Job.objects.values('site_conf').filter(site_conf__in=context["site_confs"]).group_by('site_conf'))
 
         return context
 
@@ -498,16 +500,20 @@ class TaskListView_NS(ListView):
 
 
 def jobs_by_date_and_status(request):
+    num_days = int(request.GET.get('days', 30))
+    days_ago = now() - timedelta(days=num_days)
     jobs = (
-        Job.objects.annotate(day=TruncDate('created_at'))
-        .values('day', 'status')
-        .annotate(total_jobs=Count('id'))
-        .order_by('-day', 'status')
+        Job.objects.filter(created_at__gte=days_ago)
+            .annotate(day=TruncDate('created_at'))
+            .values('day', 'status')
+            .annotate(total_jobs=Count('id'))
+            .order_by('-day', 'status')
     )
     tasks = (
-        Task.objects.annotate(day=TruncDate('created_at'))
+        Task.objects.filter(created_at__gte=days_ago)
+            .annotate(day=TruncDate('created_at'))
             .values('day')
             .annotate(total_tasks=Count('id'))
             .order_by('-day')
     )
-    return render(request, 'crawler/stats/insights.html', {'jobs':jobs, 'tasks': tasks})
+    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks})
