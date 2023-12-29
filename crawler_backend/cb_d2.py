@@ -10,13 +10,15 @@ logging.getLogger(__name__)
 def scrape(obj: BaseParser):
     base_url = obj.site_conf.base_url
     arg = json.loads(obj.site_conf.extra_data_json)
-    url = urllib.parse.urljoin(base_url, arg["tag"])
-
+    if arg:
+        url = urllib.parse.urljoin(base_url, arg["tag"])
+    else:
+        url = base_url
     res = WebClient.get(url)
 
     h2_list = res.html.find(".crayons-story__title")
 
-    for h2 in h2_list[::-1]:
+    for h2 in h2_list:
         a = h2.find('a', first=True)
 
         url = urllib.parse.urljoin(obj.site_conf.base_url, a.attrs.get('href'))
