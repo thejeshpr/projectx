@@ -20,7 +20,7 @@ def scrape(obj: BaseParser):
             if post['publication']['domainStatus'].get('ready'):
                 url = f"https://{post['publication']['domain']}/{post['slug']}"
             else:
-                url = f"https://{post['author']['username']}.hashnode.dev/{post['slug']}"
+                url = f"https://{post['publication']['username']}.hashnode.dev/{post['slug']}"
         else:
             url = f"https://{post['author']['username']}.hashnode.dev/{post['slug']}"
 
