@@ -29,7 +29,7 @@ def scrape(obj: BaseParser):
                     unique_key=article["url"],
                     name=name,
                     url=url,
-                    # data=article_extractor(url)
+                    data=f"desc: {article.get('description')} | date: {article.get('publishedAt')}"
                 )
 
                 # article extraction is not needed at this moment
