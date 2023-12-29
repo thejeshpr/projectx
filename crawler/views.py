@@ -114,7 +114,7 @@ class TaskListView(ListView):
     model = Task
     template_name = 'crawler/task/list.html'
     context_object_name = 'tasks'
-    paginate_by = 25
+    paginate_by = 50
     queryset = Task.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
 
 
@@ -240,7 +240,7 @@ def duplicate_site_conf(request, pk):
 class JobsListViewBySiteConf(ListView):
     model = Job
     context_object_name = 'jobs'
-    paginate_by = 20
+    paginate_by = 30
     template_name = 'crawler/job/list_by_siteconf.html'
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -256,7 +256,7 @@ class JobsListViewBySiteConf(ListView):
 class TaskListViewBySiteConf(ListView):
     model = Task
     context_object_name = 'tasks'
-    paginate_by = 25
+    paginate_by = 50
     # template_name = 'crawler/task/list_by_siteconf.html'
     template_name = 'crawler/task/list.html'
 
@@ -274,7 +274,7 @@ class TaskListViewBySiteConf(ListView):
 class BookmarkTaskListViewBySiteConf(ListView):
     model = Task
     context_object_name = 'tasks'
-    paginate_by = 25
+    paginate_by = 50
     # template_name = 'crawler/task/list_by_siteconf.html'
     template_name = 'crawler/task/list.html'
 
@@ -346,7 +346,7 @@ class CategoryDetailView(DetailView):
 class TasksByCategory(ListView):
     model = Task
     context_object_name = 'tasks'
-    paginate_by = 25
+    paginate_by = 100
     template_name = 'crawler/task/list.html'
 
     def get_queryset(self):
@@ -491,5 +491,5 @@ class TaskListView_NS(ListView):
     model = Task
     template_name = 'crawler/task/list.html'
     context_object_name = 'tasks'
-    paginate_by = 25
+    paginate_by = 50
     queryset = Task.objects.filter(site_conf__ns_flag=True).order_by('-created_at')
