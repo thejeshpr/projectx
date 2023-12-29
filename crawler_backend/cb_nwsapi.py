@@ -22,7 +22,7 @@ def scrape(obj: BaseParser):
 
         if json_data['status'] == 'ok':
             for article in json_data.get('articles'):
-                name = f"{article.get('author')} - {article.get('title')}"
+                name = f"{article.get('author', '?')} - {article.get('title')}"
                 url = article["url"]
 
                 created_obj = obj.create_task(
