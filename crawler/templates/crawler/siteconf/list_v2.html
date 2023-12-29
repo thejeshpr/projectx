@@ -31,7 +31,7 @@
                             <i class="las la-tasks"></i> tasks: <a style="color:gray;" href="{% url 'crawler:siteconf-tasks' site_conf.pk %}">{{ site_conf.tasks.count }}</a><br/>
                             <i class="las la-sync"></i> last sync:
                             {% if site_conf.jobs.last %}
-                                <a style="color:gray;" href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}">{{ site_conf.jobs.last.created_at | date:"d/m/Y h:i A" }}</a>
+                                <a href="{% url 'crawler:job-detail' site_conf.jobs.last.pk %}"><span class="badge bg-dark">{{ site_conf.jobs.last.created_at | date:"d/m/Y h:i A" }}</span></a>
                             {% else %}
                                 Never
                             {% endif %}
