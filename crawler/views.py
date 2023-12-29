@@ -13,6 +13,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView, DeleteView
 
+from django.db.models.functions import TruncDate
+
 from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON, BulkCreateForm
 from .invoke_backend import InvokeBackend
 from .models import SiteConf, ConfigValues, Job, Task, Category
@@ -493,3 +495,19 @@ class TaskListView_NS(ListView):
     context_object_name = 'tasks'
     paginate_by = 50
     queryset = Task.objects.filter(site_conf__ns_flag=True).order_by('-created_at')
+
+
+def jobs_by_date_and_status(request):
+    jobs = (
+        Job.objects.annotate(day=TruncDate('created_at'))
+        .values('day', 'status')
+        .annotate(total_jobs=Count('id'))
+        .order_by('day', 'status')
+    )
+    tasks = (
+        Task.objects.annotate(day=TruncDate('created_at'))
+            .values('day')
+            .annotate(total_tasks=Count('id'))
+            .order_by('day')
+    )
+    return render(request, 'crawler/stats/insights.html', {'jobs':jobs, 'tasks': tasks})

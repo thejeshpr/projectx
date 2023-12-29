@@ -45,6 +45,7 @@ urlpatterns = [
     path('siteconf-ns/', views.SiteConfListView_NS.as_view(), name='siteconf-ns-list'),
     path('job-ns/', views.JobListView_NS.as_view(), name='job-ns-list'),
     path('task-ns/', views.TaskListView_NS.as_view(), name='task-ns-list'),
+    path('stats/', views.jobs_by_date_and_status, name='stats'),
 
 ]
 
