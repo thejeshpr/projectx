@@ -20,10 +20,12 @@ def scrape(obj: BaseParser):
             a = header.find('a')[0]
             link = a.attrs.get("href").split("?")[0]
             name = a.attrs.get("title").replace("Permanent Link to ", "")
+            p = intro_div.find('p', first=True)
+            data = p.text.strip() if p else ""
 
             obj.create_task(
                 unique_key=link,
                 name=name,
                 url=link,
-                data=intro_div.find('p', first=True).text
+                data=data
             )
