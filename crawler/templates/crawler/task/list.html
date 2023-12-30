@@ -14,7 +14,7 @@
         <h5 class="card-title mb-0">
             <span class="badge bg-info text-dark">#{{ task.id }}</span> {{ task.name }}
         </h5>
-          <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+          <a class="task-link" href="{{ task.url }}" target="_blank">{{ task.url }}</a>
           {% if task.is_bookmarked %}
           <p><i id="star-{{ task.id }}" class="las la-star bm-icon float-end"></i></p>
           {% else %}
