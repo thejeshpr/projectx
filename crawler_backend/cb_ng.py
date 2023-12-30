@@ -36,8 +36,8 @@ def scrape(obj: BaseParser):
             obj.create_task(
                 unique_key=post.get("id"),
                 name=post['title'],
-                url=data["url"]
-                # data=data
+                url=data["url"],
+                data=f'URL: {post.get("url")}'
             )
 
         elif post["type"] == "Animated":
@@ -45,7 +45,7 @@ def scrape(obj: BaseParser):
             obj.create_task(
                 unique_key=post.get("id"),
                 name=post['title'],
-                url=data["url"]
-                # data=data
+                url=data["url"],
+                data=f'URL: {post.get("url")}'
             )
 
