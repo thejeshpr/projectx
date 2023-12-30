@@ -500,7 +500,7 @@ class TaskListView_NS(ListView):
 
 
 def jobs_by_date_and_status(request):
-    num_days = int(request.GET.get('days', 30))
+    num_days = int(request.GET.get('days', 7))
     days_ago = now() - timedelta(days=num_days)
     jobs = (
         Job.objects.filter(created_at__gte=days_ago)
