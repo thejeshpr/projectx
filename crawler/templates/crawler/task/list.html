@@ -4,66 +4,31 @@
 
 {% block content %}
     <div>
-        <h6>List of Tasks {% if extra_info %} | {{ extra_info }} {% endif %}</h6>
+        <h4 class="text-white m-2">List of Tasks {% if extra_info %} | {{ extra_info }} {% endif %}</h4>
     </div>
-
+    <hr/>
     {% for task in tasks %}
 
-    <div class="card">
+    <div class="card bg-dark text-white m-2"> <!-- Adjusted card class -->
       <div class="card-body">
         <h5 class="card-title mb-0">
-            <span class="badge bg-info text-dark">#{{ task.id }}</span> {{ task.name }}
+            <span class="badge bg-secondary">#{{ task.id }}</span> {{ task.name }} <!-- Adjusted badge class -->
         </h5>
-          <a class="task-link" href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+          <a class="task-link text-white" href="{{ task.url }}" target="_blank">{{ task.url }}</a>
           {% if task.is_bookmarked %}
-          <p><i id="star-{{ task.id }}" class="las la-star bm-icon float-end"></i></p>
+          <p><i id="star-{{ task.id }}" class="las la-star bm-icon float-end text-warning"></i></p> <!-- Adjusted star icon class -->
           {% else %}
-          <p><i id="star-{{ task.id }}" class="lar la-bookmark bm-icon float-end"></i></p>
+          <p><i id="star-{{ task.id }}" class="lar la-bookmark bm-icon float-end text-muted"></i></p> <!-- Adjusted bookmark icon class -->
           {% endif %}
           {% if task.data %}
-            <code>{{ task.data|linebreaks }}</code>
+            <code class="text-white">{{ task.data|linebreaks }}</code> <!-- Adjusted text color -->
           {% endif %}
-          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p>
+          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p> <!-- Adjusted text color -->
       </div>
     </div>
-    <br/>
+<!--    <br/>-->
     {% endfor %}
 
     {% include "crawler/generic/pagination.html" %}
 
-{% endblock %}
-
-{% block jscontent %}
-
-<script>
-$(document).ready(function(){
-    $(".bm-icon").click(function(){
-
-      var id = $(this).attr("id").replace("star-", "");
-      $.ajax({
-        type: 'GET',
-        url: "/task/" + id + "/toggle-bookmark",
-        encode: true,
-        success: function(data, textStatus, jqXHR) {
-            console.log(data.status)
-
-            if (data.action == "marked"){
-                console.log("marked");
-                console.log("#star-" + id );
-                $("#star-" + id ).removeClass("lar la-bookmark").addClass("las la-star");
-            } else {
-                console.log("unmarked");
-                $("#star-" + id ).removeClass("las la-star").addClass("lar la-bookmark");
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("ERROR");
-        }
-      }).done(function(data) {
-        // done
-      });
-    });
-
-});
-</script>
 {% endblock %}
