@@ -18,7 +18,7 @@
                         </thead>
                         <tbody>
                             {% for entry in jobs %}
-                                <tr>
+                                <tr class="text-white">
                                     <td>{{ entry.day }}</td>
                                     <td>
                                         {% if entry.status == "SUCCESS" %}
@@ -53,7 +53,7 @@
                                 <th scope="col">Count</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-white">
                             {% for entry in tasks %}
                                 <tr>
                                     <td>{{ entry.day }}</td>
