@@ -33,7 +33,7 @@
                                             <span class="badge bg-dark">preparing</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ entry.total_jobs }}</td>
+                                    <td><a href="{% url 'crawler:job-list' %}?status={{entry.status}}&ref_dt={{entry.day|date:'Y-m-d'}}">{{ entry.total_jobs }}</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

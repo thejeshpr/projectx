@@ -111,7 +111,21 @@ class JobListView(ListView):
     template_name = 'crawler/job/list.html'
     context_object_name = 'jobs'
     paginate_by = 100
-    queryset = Job.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
+    # queryset = Job.objects.filter(site_conf__ns_flag=False).order_by('-created_at')
+
+    def get_queryset(self):
+        date_fmt = "%Y-%m-%d"
+        # date_fmt = "%d-%m-%Y"
+        ref_dt, sts = self.request.GET.get('ref_dt'), self.request.GET.get('status')
+        qry = Job.objects.filter(site_conf__ns_flag=False)
+        if ref_dt:
+            ref_dt = datetime.strptime(ref_dt, date_fmt)
+            qry = qry.filter(created_at__date=ref_dt)
+        if sts:
+            qry = qry.filter(status=sts.upper())
+
+        return qry.order_by('-created_at')
+
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
