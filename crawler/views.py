@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Prefetch, Count, Aggregate
+from django.db.models import Prefetch, Count, Aggregate, Q
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -530,4 +530,19 @@ def jobs_by_date_and_status(request):
             .annotate(total_tasks=Count('id'))
             .order_by('-day')
     )
-    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks})
+
+    # from django.db.models import Count
+    # from django.utils import timezone
+    # from datetime import timedelta
+    # Get the start date for the last 7 days
+    start_date = now() - timedelta(days=num_days)
+    # Fetch the counts for all SiteConfs
+    site_conf_counts = SiteConf.objects.annotate(
+        new_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NEW')),
+        running_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='RUNNING')),
+        success_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='SUCCESS')),
+        error_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='ERROR')),
+        no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
+    ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by('-no_task_count')
+
+    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts})

@@ -66,4 +66,38 @@
             </div>
         </div>
     </div>
+
+<hr class="my-5">
+<!-- New table for Site counts -->
+<div class="row">
+    <div class="col">
+        <h1 class="mb-4">Site Counts by Status</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Site</th>
+                        <th scope="col">New</th>
+                        <th scope="col">Running</th>
+                        <th scope="col">Success</th>
+                        <th scope="col">Error</th>
+                        <th scope="col">No Task</th>
+                    </tr>
+                </thead>
+                <tbody class="text-white">
+                    {% for site_count in site_conf_counts %}
+                        <tr>
+                            <td>{{ site_count.name }}</td>
+                            <td>{{ site_count.new_count }}</td>
+                            <td>{{ site_count.running_count }}</td>
+                            <td>{{ site_count.success_count }}</td>
+                            <td>{{ site_count.error_count }}</td>
+                            <td>{{ site_count.no_task_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
