@@ -18,7 +18,7 @@ def scrape(obj: BaseParser):
 
     links = res.html.xpath("/html/body/div[2]/div/div[1]/div/main/div[3]/div[1]/div[1]/div/div[*]/div[2]/h2/a")
 
-    for link in links[::-1]:
+    for link in links:
         logging.debug(link)
         url_link = link.attrs.get('href')
         # tasks.append(

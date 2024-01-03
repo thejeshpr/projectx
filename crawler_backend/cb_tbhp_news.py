@@ -13,7 +13,7 @@ def scrape(obj: BaseParser):
 
     li_list = res.html.xpath('//*[@id="newslist"]/li[*]/div/div[2]/h2/a')
 
-    for li in li_list[::-1]:
+    for li in li_list:
         a = li.find('a', first=True)
         url = urllib.parse.urljoin(article_base_url, a.attrs.get('href'))
 

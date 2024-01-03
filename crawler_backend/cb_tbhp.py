@@ -10,7 +10,7 @@ def scrape(obj: BaseParser):
 
     li_list = res.html.xpath("/html/body/div[2]/div[2]/div[1]/div[1]/div[3]/div[1]/div/div[2]/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li[*]/div/div[2]/h2/a")
 
-    for li in li_list[::-1]:
+    for li in li_list:
         a = li.find('a', first=True)
 
         obj.create_task(

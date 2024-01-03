@@ -14,7 +14,7 @@ def scrape(obj: BaseParser):
 
     found_links = dict()
 
-    for p in res.html.find(".top-matter")[::-1]:
+    for p in res.html.find(".top-matter"):
         a = p.find("a", first=True)
         if a:
             link = a.attrs.get("href")

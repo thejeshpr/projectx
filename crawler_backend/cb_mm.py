@@ -12,7 +12,7 @@ def scrape(obj: BaseParser):
 
     divs = soup.find_all('div', {'class': 'entry-grid-content hgrid-span-12'})
 
-    for div in divs[::-1]:
+    for div in divs:
         h2 = div.find("h2", {"class": "entry-title"})
         a = h2.find('a')
 

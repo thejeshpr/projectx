@@ -10,7 +10,7 @@ def scrape(obj: BaseParser):
 
     a_list = res.html.xpath("/html/body/main/content/ul/li[*]/div/a")
 
-    for a in a_list[::-1]:
+    for a in a_list:
         url = a.attrs.get('href')
         if not url.startswith('http'):
             url = f'https:{url}'

@@ -13,7 +13,7 @@ def scrape(obj: BaseParser):
     base_url = base_url.format(grp=grp, typ=typ)
     data = WebClient.post_phjs(base_url, return_json=True)
 
-    posts = data.get("data").get("posts")[::-1]
+    posts = data.get("data").get("posts")
     logging.debug(posts)
 
     for post in posts:
