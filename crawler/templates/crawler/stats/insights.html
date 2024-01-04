@@ -88,11 +88,11 @@
                     {% for site_count in site_conf_counts %}
                         <tr>
                             <td><a href="{% url 'crawler:siteconf-detail' site_count.id%}">{{ site_count.name }}</a></td>
-                            <td><a href="{% url 'crawler:job-list' %}?status=NEW&sc={{site_count.id}}">{{ site_count.new_count }}</a></td>
-                            <td><a href="{% url 'crawler:job-list' %}?status=RUNNING&sc={{site_count.id}}">{{ site_count.running_count }}</a></td>
-                            <td><a href="{% url 'crawler:job-list' %}?status=SUCCESS&sc={{site_count.id}}">{{ site_count.success_count }}</a></td>
-                            <td><a href="{% url 'crawler:job-list' %}?status=ERROR&sc={{site_count.id}}">{{ site_count.error_count }}</a></td>
-                            <td><a href="{% url 'crawler:job-list' %}?status=NO-TASK&sc={{site_count.id}}">{{ site_count.no_task_count }}</a></td>
+                            <td><a href="{% url 'crawler:job-list' %}?status=NEW&sc={{site_count.id}}&ns={{ns}}">{{ site_count.new_count }}</a></td>
+                            <td><a href="{% url 'crawler:job-list' %}?status=RUNNING&sc={{site_count.id}}&ns={{ns}}">{{ site_count.running_count }}</a></td>
+                            <td><a href="{% url 'crawler:job-list' %}?status=SUCCESS&sc={{site_count.id}}&ns={{ns}}">{{ site_count.success_count }}</a></td>
+                            <td><a href="{% url 'crawler:job-list' %}?status=ERROR&sc={{site_count.id}}&ns={{ns}}">{{ site_count.error_count }}</a></td>
+                            <td><a href="{% url 'crawler:job-list' %}?status=NO-TASK&sc={{site_count.id}}&ns={{ns}}">{{ site_count.no_task_count }}</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

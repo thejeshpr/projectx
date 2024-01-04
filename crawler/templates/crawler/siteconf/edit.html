@@ -3,9 +3,9 @@
 {% load bootstrap5 %}
 
 {% block content %}
-  <div class="card">
+  <div class="card bg-dark">
     <div class="card-header">
-      <h6>Create New SiteConf</h6>
+      <h6>Edit SiteConf</h6>
     </div>
     <div class="card-body">
       <form action="{% url 'crawler:siteconf-edit' object.pk %}" method="post" class="form">
