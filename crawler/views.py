@@ -553,6 +553,6 @@ def jobs_by_date_and_status(request):
         error_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='ERROR')),
         no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
     ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by(
-        '-no_task_count')
+        '-success_count')
 
     return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts, 'ns': ns_flag})
