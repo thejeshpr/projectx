@@ -3,8 +3,9 @@
 {% load bootstrap5 %}
 
 {% block content %}
+<div class="card bg-dark">
     <div>
-        <h6>Create New SiteConf</h6>
+        <h6>Edit SiteConf</h6>
     </div>
     <form action="{% url 'crawler:config-value-edit' object.pk %}" method="post" class="form">
           {% csrf_token %}
@@ -18,5 +19,6 @@
         {{ error }}
     </div>
     {% endif %}
+</div>
 
 {% endblock %}

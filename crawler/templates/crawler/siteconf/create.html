@@ -3,21 +3,23 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div>
-        <h6>Create New SiteConf</h6>
+    <div class="card bg-dark">
+        <div>
+            <h6>Create New SiteConf</h6>
+        </div>
+        <form action="/siteconf/new" method="post" class="form">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              {% buttons %}
+                <button type="submit" class="btn btn-primary">Create</button> OR
+                <a class="btn btn-success" href="{% url 'crawler:siteconf-create-json' %}">Create by JSON</a>
+              {% endbuttons %}
+        </form>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
     </div>
-    <form action="/siteconf/new" method="post" class="form">
-          {% csrf_token %}
-          {% bootstrap_form form %}
-          {% buttons %}
-            <button type="submit" class="btn btn-primary">Create</button> OR
-            <a class="btn btn-success" href="{% url 'crawler:siteconf-create-json' %}">Create by JSON</a>
-          {% endbuttons %}
-    </form>
-    {% if error %}
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-    {% endif %}
 
 {% endblock %}

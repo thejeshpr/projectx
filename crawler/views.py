@@ -116,13 +116,15 @@ class JobListView(ListView):
     def get_queryset(self):
         date_fmt = "%Y-%m-%d"
         # date_fmt = "%d-%m-%Y"
-        ref_dt, sts = self.request.GET.get('ref_dt'), self.request.GET.get('status')
+        ref_dt, sts, site_conf = self.request.GET.get('ref_dt'), self.request.GET.get('status'), self.request.GET.get('sc')
         qry = Job.objects.filter(site_conf__ns_flag=False)
         if ref_dt:
             ref_dt = datetime.strptime(ref_dt, date_fmt)
             qry = qry.filter(created_at__date=ref_dt)
         if sts:
             qry = qry.filter(status=sts.upper())
+        if site_conf:
+            qry = qry.filter(site_conf__pk=site_conf)
 
         return qry.order_by('-created_at')
 
@@ -515,6 +517,7 @@ class TaskListView_NS(ListView):
 
 def jobs_by_date_and_status(request):
     num_days = int(request.GET.get('days', 7))
+    ns_flag = request.GET.get('ns', 'false')
     days_ago = now() - timedelta(days=num_days)
     jobs = (
         Job.objects.filter(created_at__gte=days_ago)
@@ -537,12 +540,25 @@ def jobs_by_date_and_status(request):
     # Get the start date for the last 7 days
     start_date = now() - timedelta(days=num_days)
     # Fetch the counts for all SiteConfs
-    site_conf_counts = SiteConf.objects.annotate(
+    if ns_flag == "true":
+        sf_qry = SiteConf.objects
+        # site_conf_counts = SiteConf.objects.annotate(
+        #     new_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NEW')),
+        #     running_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='RUNNING')),
+        #     success_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='SUCCESS')),
+        #     error_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='ERROR')),
+        #     no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
+        # ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by('-no_task_count')
+    else:
+        sf_qry = SiteConf.objects.filter(ns_flag=False)
+
+    site_conf_counts = sf_qry.annotate(
         new_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NEW')),
         running_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='RUNNING')),
         success_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='SUCCESS')),
         error_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='ERROR')),
         no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
-    ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by('-no_task_count')
+    ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by(
+        '-no_task_count')
 
     return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts})
