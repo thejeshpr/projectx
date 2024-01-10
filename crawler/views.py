@@ -1,4 +1,5 @@
 import json
+import time
 import uuid
 from datetime import datetime
 
@@ -520,6 +521,7 @@ class TaskListView_NS(ListView):
 
 
 def jobs_by_date_and_status(request):
+    start_time = time.time()
     num_days = int(request.GET.get('days', 7))
     ns_flag = request.GET.get('ns', 'false')
     days_ago = now() - timedelta(days=num_days)
@@ -554,5 +556,5 @@ def jobs_by_date_and_status(request):
         no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
     ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by(
         '-success_count')
-
-    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts, 'ns': ns_flag})
+    time_taken = int(time.time() - start_time)
+    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts, 'ns': ns_flag, 'time_taken': time_taken})
