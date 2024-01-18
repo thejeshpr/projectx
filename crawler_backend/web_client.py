@@ -60,6 +60,14 @@ class WebClient:
         res = WebClient.get(url)
         return BeautifulSoup(res.html.html, 'html.parser')
 
+    @staticmethod
+    def put(url, headers=dict(), payload=dict()):
+        session = HTMLSession()
+        logging.debug(f"connecting to {url}")
+        res = session.post(url, headers=headers, data=payload)
+        WebClient.check_status_code(res)
+        return res
+
 
 
 
