@@ -556,5 +556,19 @@ def jobs_by_date_and_status(request):
         no_task_count=Count('jobs', filter=Q(jobs__created_at__gte=start_date, jobs__status='NO-TASK'))
     ).values('id', 'name', 'new_count', 'running_count', 'success_count', 'error_count', 'no_task_count').order_by(
         '-success_count')
+    task_count, job_count, sc_count = (
+        Task.objects.count(),
+        Job.objects.count(),
+        SiteConf.objects.count()
+    )
     time_taken = int(time.time() - start_time)
-    return render(request, 'crawler/stats/insights.html', {'jobs': jobs, 'tasks': tasks, 'site_conf_counts': site_conf_counts, 'ns': ns_flag, 'time_taken': time_taken})
+    return render(request, 'crawler/stats/insights.html', {
+        'jobs': jobs,
+        'tasks': tasks,
+        'site_conf_counts':site_conf_counts,
+        'ns': ns_flag,
+        'time_taken': time_taken,
+        'task_count': task_count,
+        'job_count': job_count,
+        'sc_count': sc_count
+    })

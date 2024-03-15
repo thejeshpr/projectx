@@ -3,7 +3,39 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container">
+
+        <div class="row">
+
+          <div class="col-sm-4">
+            <div class="card text-white bg-dark mb-3 mt-2">
+              <div class="card-body">
+                <h3 class="card-title">{{ task_count }}</h3>
+                <p class="card-text">Tasks</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card text-white bg-dark mb-3 mt-2">
+              <div class="card-body">
+                <h3 class="card-title">{{ job_count }}</h3>
+                <p class="card-text">Jobs</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="card text-white bg-dark mb-3 mt-2">
+              <div class="card-body">
+                <h3 class="card-title">{{ sc_count }}</h3>
+                <p class="card-text">SiteConfs</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <div class="row">
             <div class="col">
                 <h1 class="mb-4">Jobs by Date and Status</h1>
