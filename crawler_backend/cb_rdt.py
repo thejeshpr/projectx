@@ -7,7 +7,8 @@ from crawler_backend import WebClient, BaseParser
 def scrape(obj: BaseParser):
     logging.info("Establishing connection to url")
     base_url = obj.site_conf.base_url
-    res = WebClient.get(base_url)
+    # res = WebClient.get(base_url)
+    res = WebClient.get_soup_phjs(base_url)
 
     logging.debug(f"status code:{res.status_code}")
     logging.debug(f"response: {res.content}")
