@@ -47,6 +47,8 @@ class WebClient:
         url = url.format(key=key)
 
         res = requests.post(url, data=json.dumps(data))
+        logging.debug(f"status_code: {res.status_code}")
+        logging.debug(f"response: {res.content}")
         WebClient.check_status_code(res)
         return res.content if not return_json else res.json()
 
