@@ -1,33 +1,28 @@
+import json
 import logging
 import urllib.parse
+import praw
 
 from crawler_backend import WebClient, BaseParser
 
 
 def scrape(obj: BaseParser):
-    logging.info("Establishing connection to url")
-    base_url = obj.site_conf.base_url
-    # res = WebClient.get(base_url)
-    res = WebClient.get_soup_phjs(base_url)
+    logging.info("Establishing connection using praw")
+    extras = json.loads(obj.site_conf.extra_data_json)
 
-    logging.debug(f"status code:{res.status_code}")
-    logging.debug(f"response: {res.content}")
+    rdt = praw.Reddit(
+        client_id=BaseParser.get_config_val("rdt_cl_id"),
+        client_secret=BaseParser.get_config_val("rdt_cl_srt"),
+        user_agent=BaseParser.get_config_val("rdt_usr_agt")
+    )
 
-    found_links = dict()
+    for i, sub in enumerate(rdt.subreddit(extras.get("sr")).new(), 1):
+        logging.debug(f"{i} processing rdt {sub.title}")
+        obj.create_task(
+            unique_key=sub.id,
+            name=sub.title,
+            url=sub.url,
+            data=f"created_at: {sub.created}\n"
+                 f"text: {sub.selftext}"
+        )
 
-    for p in res.html.find(".top-matter"):
-        a = p.find("a", first=True)
-        if a:
-            link = a.attrs.get("href")
-            if link not in found_links:
-                li = p.find(".first", first=True)
-                if li:
-                    comment = li.find("a", first=True)
-                    comment_link = comment.attrs.get('href')
-                    comment_link = comment_link.replace("old.reddit.com", "www.reddit.com")
-                    found_links[a.text.strip()] = comment_link
-                    obj.create_task(
-                        unique_key=comment_link,
-                        name=a.text.strip(),
-                        url=comment_link
-                    )
