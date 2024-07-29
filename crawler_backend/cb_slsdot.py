@@ -15,6 +15,7 @@ def scrape(obj: BaseParser):
         obj.create_task(
             unique_key=a.attrs.get('href'),
             name=a.text.strip(),
-            url=a.attrs.get('href'),
+            url=urllib.parse.urljoin("https:", a.attrs.get('href')),
             data=data
         )
+
