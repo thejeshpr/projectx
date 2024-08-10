@@ -579,12 +579,19 @@ def jobs_by_date_and_status(request):
 def get_random_task(request):
     ns_flag = request.GET.get('ns', 'false')
     ns_flag = True if ns_flag == "true" else False
-    while True:
+
+    # define counter to avoid loop from iloop
+    counter = 0
+    while counter < 10:
         max_id = Task.objects.all().aggregate(max_id=Max("id"))['max_id']
         pk = random.randint(1, max_id)
         task = Task.objects.filter(site_conf__ns_flag=ns_flag, pk=pk).first()
         if task:
             return render(request, 'crawler/task/random.html', {
-                'task': task
+                'task': task,
+                'counter': counter
             })
+        else:
+            counter = counter + 1
+    return HttpResponse("randomize limit exceeded")
 

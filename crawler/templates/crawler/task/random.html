@@ -20,7 +20,7 @@
           {% if task.data %}
             <code>{{ task.data|linebreaks }}</code>
           {% endif %}
-          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p>
+          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }} | {{ counter }}</p>
       </div>
       <div class="card-footer">
         <a class="btn btn-primary btm-s float-end" href="{% url 'crawler:get-random-task' %}">Get Random <i class="las la-dice"></i></a>
