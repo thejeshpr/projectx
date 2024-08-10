@@ -1,0 +1,24 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+
+    <div class="card bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">
+            <span class="badge bg-info text-dark">#{{ task.id }}</span> {{ task.name }}
+        </h5>
+          <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+          {% if task.data %}
+            <code>{{ task.data|linebreaks }}</code>
+          {% endif %}
+          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-primary btm-s float-end" href="{% url 'crawler:get-random-task' %}">Get Random <i class="las la-dice"></i></a>
+      </div>
+    </div>
+
+
+{% endblock %}

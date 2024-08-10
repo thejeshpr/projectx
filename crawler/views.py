@@ -1,4 +1,5 @@
 import json
+import random
 import time
 import uuid
 from datetime import datetime
@@ -17,6 +18,7 @@ from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, FormView, DeleteView
 
 from django.db.models.functions import TruncDate
+from django.db.models import Max
 
 from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON, BulkCreateForm
 from .invoke_backend import InvokeBackend
@@ -572,3 +574,15 @@ def jobs_by_date_and_status(request):
         'job_count': job_count,
         'sc_count': sc_count
     })
+
+
+def get_random_task(request):
+    max_id = Task.objects.filter(site_conf__ns_flag=True).aggregate(max_id=Max("id"))['max_id']
+    pk = random.randint(1, max_id)
+    print(pk)
+    task = Task.objects.filter(pk=pk).first()
+    print(task)
+    return render(request, 'crawler/task/random.html', {
+        'task': task
+    })
+

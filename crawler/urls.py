@@ -29,6 +29,8 @@ urlpatterns = [
     path('task/<pk>/toggle-bookmark', views.toggle_bookmark, name='task-bookmark'),
     path('bookmarks', views.BookmarkTaskListViewBySiteConf.as_view(), name='bookmarks'),
 
+    path('task/random', views.get_random_task, name='get-random-task'),
+
     path('scrape/<pk>', views.scrape, name='scrape'),
 
     path('category/new', views.CategoryCreateView.as_view(), name='category-create'),
