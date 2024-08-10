@@ -23,7 +23,8 @@
           <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }} | {{ counter }}</p>
       </div>
       <div class="card-footer">
-        <a class="btn btn-primary btm-s float-end" href="{% url 'crawler:get-random-task' %}">Get Random <i class="las la-dice"></i></a>
+        <a class="btn {% if task.site_conf.ns_flag %} btn-warning {% else %} btn-primary {% endif %} btm-sm float-end" href="{% url 'crawler:get-random-task' %}">
+          Get Random <i class="las la-dice"></i></a>
       </div>
     </div>
 
