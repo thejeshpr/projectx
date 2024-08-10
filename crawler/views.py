@@ -526,14 +526,14 @@ def jobs_by_date_and_status(request):
     ns_flag = request.GET.get('ns', 'false')
     days_ago = now() - timedelta(days=num_days)
     jobs = (
-        Job.objects.filter(created_at__gte=days_ago, site_conf__ns_flag=True if ns_flag=="true" else False)
+        Job.objects.filter(created_at__gte=days_ago, site_conf__ns_flag=True if ns_flag == "true" else False)
             .annotate(day=TruncDate('created_at'))
             .values('day', 'status')
             .annotate(total_jobs=Count('id'))
             .order_by('-day', 'status')
     )
     tasks = (
-        Task.objects.filter(created_at__gte=days_ago, site_conf__ns_flag=True if ns_flag=="true" else False)
+        Task.objects.filter(created_at__gte=days_ago, site_conf__ns_flag=True if ns_flag == "true" else False)
             .annotate(day=TruncDate('created_at'))
             .values('day')
             .annotate(total_tasks=Count('id'))
