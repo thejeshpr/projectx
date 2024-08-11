@@ -245,6 +245,7 @@ class SiteConfByJSONView(FormView):
         return super().form_valid(form)
 
 
+@login_required(login_url='/login/')
 def duplicate_site_conf(request, pk):
     # sc: SiteConf = get_object_or_404(SiteConf, pk=pk)
     original_obj = get_object_or_404(SiteConf, pk=pk)
@@ -522,6 +523,7 @@ class TaskListView_NS(ListView):
     queryset = Task.objects.filter(site_conf__ns_flag=True).order_by('-created_at')
 
 
+@login_required(login_url='/login/')
 def jobs_by_date_and_status(request):
     start_time = time.time()
     num_days = int(request.GET.get('days', 7))
@@ -576,6 +578,7 @@ def jobs_by_date_and_status(request):
     })
 
 
+@login_required(login_url='/login/')
 def get_random_task(request):
     # define counter to avoid loop from iloop
     counter = 0
