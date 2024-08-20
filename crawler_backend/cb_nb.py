@@ -19,11 +19,11 @@ def scrape(obj: BaseParser):
             logging.debug("processing item: {}".format(item))
             availableFrom = int(str(item["availableFrom"])[:-3])
             availableFrom = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(availableFrom))
-            data = (f"plotArea: {item['plotArea']}\n"
-                    f"pricePerUnit: {item['pricePerUnit']}\n"
-                    f"completeStreetName: {item['completeStreetName']}\n"
-                    f"address: {item['address']}\n"
-                    f"location: {item['location']}\n"
+            data = (f"plotArea: {item.get('plotArea')}\n"
+                    f"pricePerUnit: {item.get('pricePerUnit')}\n"
+                    f"completeStreetName: {item.get('completeStreetName')}\n"
+                    f"address: {item.get('address')}\n"
+                    f"location: {item.get('location')}\n"
                     f"availableFrom: {availableFrom}\n")
             obj.create_task(
                 unique_key=item["id"],
