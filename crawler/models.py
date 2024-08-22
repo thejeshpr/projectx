@@ -49,6 +49,7 @@ class SiteConf(models.Model):
 class Job(models.Model):
     JOB_STATUS = (
         ('NEW', 'NEW'),
+        ('WAITING', 'WAITING'),
         ('RUNNING', 'RUNNING'),
         ('SUCCESS', 'SUCCESS'),
         ('ERROR', 'ERROR'),
