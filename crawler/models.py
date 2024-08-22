@@ -63,15 +63,15 @@ class Job(models.Model):
 
 
 class Task(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    data = models.TextField(blank=True, null=True)
-    is_bookmarked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    data = models.TextField(blank=True, null=True, db_index=True)
+    is_bookmarked = models.BooleanField(default=False, db_index=True)
     job = models.ForeignKey('Job', on_delete=models.CASCADE, related_name='tasks')
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, db_index=True)
     site_conf = models.ForeignKey('SiteConf', on_delete=models.CASCADE, related_name='tasks')
     unique_key = models.CharField(max_length=2500, unique=True)
     updated_at = models.DateTimeField(auto_now=True)
-    url = models.URLField(blank=True, null=True, max_length=2500)
+    url = models.URLField(blank=True, null=True, max_length=2500, db_index=True)
 
     def __str__(self):
         return self.name
