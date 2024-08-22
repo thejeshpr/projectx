@@ -197,6 +197,7 @@ class JobDetailView(DetailView):
 
 # @login_required(login_url='/login/')
 def scrape(request, pk):
+    wait_time = int(request.GET.get("wait_time", 0))
     site_conf: SiteConf = get_object_or_404(SiteConf, pk=pk)
 
     if not site_conf.enabled:
@@ -205,9 +206,10 @@ def scrape(request, pk):
     if site_conf.is_locked:
         return JsonResponse({'status': 'ERROR', 'message': 'SiteConf already in sync, can\'t place parallel requests'})
 
-    ib = InvokeBackend(site_conf)
+    ib = InvokeBackend(site_conf, wait_time=wait_time)
 
     flag = request.GET.get("redirect_to_job")
+
     if flag and flag.lower() == 'yes':
         return redirect(f'/job/{ib.job.id}')
 
