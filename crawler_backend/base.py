@@ -38,22 +38,37 @@ from crawler.models import (
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("job_id", help="Job ID to Crawl")
+    parser.add_argument("-wt", "--wait-time", required=False, type=int, help="Wait time in seconds", default=0)
     args = parser.parse_args()
     logging.info(f"Starts Scarping")
     logging.debug(f"JOB ID: {args.job_id}")
 
     logging.debug(f"Invoking Base Parser")
-    _ = BaseParser(args.job_id)
+    _ = BaseParser(args.job_id, wait_time=args.wait_time)
 
 
 class BaseParser():
-    def __init__(self, job_id):
+    def __init__(self, job_id, wait_time=0):
         self.job: Job = Job.objects.get(pk=job_id)
+        self.wait_time: int = wait_time
+
+        # added wait time
+        self.wait()
+
         self.job_start_time = time.time()
         self.site_conf: SiteConf = SiteConf.objects.get(pk=self.job.site_conf.pk)
         logging.debug(f"SiteConf: {self.site_conf.name}")
         logging.debug(f"starting execution")
+
         self.execute()
+
+    def wait(self):
+        logging.debug("check if waiting is required")
+
+        if self.wait_time > 0:
+            self.job.status = "WAITING"
+            self.job.save()
+            time.sleep(self.wait_time)
 
     def execute(self):
         self.scrape()
