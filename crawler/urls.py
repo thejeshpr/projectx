@@ -28,6 +28,7 @@ urlpatterns = [
     path('task/', views.TaskListView.as_view(), name='task-list'),
     path('task/<pk>/toggle-bookmark', views.toggle_bookmark, name='task-bookmark'),
     path('bookmarks', views.BookmarkTaskListViewBySiteConf.as_view(), name='bookmarks'),
+    path('search', views.TaskSearchView.as_view(), name='task-search'),
 
     path('task/random', views.get_random_task, name='get-random-task'),
 

@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Prefetch, Count, Aggregate, Q
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
@@ -20,7 +21,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, F
 from django.db.models.functions import TruncDate
 from django.db.models import Max
 
-from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON, BulkCreateForm
+from .forms import SiteConfCreateForm, ConfigValuesCreateForm, SiteConfFormByJSON, BulkCreateForm, TaskSearchForm
 from .invoke_backend import InvokeBackend
 from .models import SiteConf, ConfigValues, Job, Task, Category
 
@@ -596,4 +597,37 @@ def get_random_task(request):
         else:
             counter = counter + 1
     return HttpResponse("randomize limit exceeded")
+
+
+
+class TaskSearchView(ListView):
+    model = Task
+    template_name = 'crawler/task/search_tasks.html'
+    context_object_name = 'tasks'
+    paginate_by = 20
+
+    def get_queryset(self):
+        query = self.request.GET.get('query', '')
+        if query:
+            return Task.objects.filter(
+                Q(name__icontains=query) |
+                Q(data__icontains=query) |
+                Q(url__icontains=query)
+            )
+        return Task.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TaskSearchForm(self.request.GET)
+        context['query'] = self.request.GET.get('query', '')
+        context["search_count"] = self.get_queryset().count()
+        return context
+
+
+
+
+
+
+
+
 

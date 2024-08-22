@@ -1,0 +1,135 @@
+
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+
+    <h1 class="text-center mb-4">Search Tasks</h1>
+
+    <!-- Search Form -->
+    <form method="get" class="d-flex justify-content-center mb-5">
+        <div class="input-group" style="max-width: 600px;">
+            <input type="text" name="query" class="form-control" placeholder="Search tasks..." value="{{ query }}" aria-label="Search tasks">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    {% if query %}
+        <p class="text-center text-muted">{{ search_count }} result{{ search_count|pluralize }} found for "{{ query }}"</p>
+    {% endif %}
+
+    <!-- Search Results -->
+    {% if tasks %}
+        <div class="list-group">
+            {% for task in tasks %}
+
+                <div class="card bg-dark text-white m-2"> <!-- Adjusted card class -->
+                      <div class="card-body">
+                        <h5 class="card-title mb-0">
+                            <span class="badge bg-secondary">#{{ task.id }}</span> {{ task.name }} <!-- Adjusted badge class -->
+                        </h5>
+                          <a class="task-link text-white" href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+                          {% if task.is_bookmarked %}
+                          <p><i id="star-{{ task.id }}" class="las la-star bm-icon float-end text-warning"></i></p> <!-- Adjusted star icon class -->
+                          {% else %}
+                          <p><i id="star-{{ task.id }}" class="lar la-bookmark bm-icon float-end text-muted"></i></p> <!-- Adjusted bookmark icon class -->
+                          {% endif %}
+                          {% if task.data %}
+                            <code class="text-white">{{ task.data|linebreaks }}</code> <!-- Adjusted text color -->
+                          {% endif %}
+                          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p> <!-- Adjusted text color -->
+                      </div>
+                    </div>
+
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Task search results pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?query={{ query }}&page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            No results found for "{{ query }}".
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block jscontent %}
+
+<script>
+$(document).ready(function(){
+    $(".bm-icon").click(function(){
+
+      var id = $(this).attr("id").replace("star-", "");
+      $.ajax({
+        type: 'GET',
+        url: "/task/" + id + "/toggle-bookmark",
+        encode: true,
+        success: function(data, textStatus, jqXHR) {
+            console.log(data.status)
+
+            if (data.action == "marked"){
+                console.log("marked");
+                console.log("#star-" + id );
+                $("#star-" + id ).removeClass("lar la-bookmark").addClass("las la-star");
+            } else {
+                console.log("unmarked");
+                $("#star-" + id ).removeClass("las la-star").addClass("lar la-bookmark");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("ERROR");
+        }
+      }).done(function(data) {
+        // done
+      });
+    });
+
+});
+</script>
+{% endblock %}
+
+
+
+
+
+

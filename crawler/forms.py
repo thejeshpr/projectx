@@ -71,3 +71,7 @@ class BulkCreateForm(forms.Form):
             except Exception as e:
                 self.add_error(None, ValidationError(f"Invalid JSON Data: {e}"))
         return cleaned_data
+
+
+class TaskSearchForm(forms.Form):
+    query = forms.CharField(max_length=100, required=True, label='Search')
