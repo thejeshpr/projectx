@@ -7,5 +7,7 @@
 {% elif job.status == "RUNNING" %}
     <span class="badge bg-primary">running</span>
 {% elif job.status == "NEW" %}
-    <span class="badge bg-dark">preparing</span>
+    <span class="badge bg-dark">new</span>
+{% elif job.status == "WAITING" %}
+    <span class="badge bg-warning">waiting</span>
 {% endif %}
