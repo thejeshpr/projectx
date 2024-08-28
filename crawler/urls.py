@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('task/', views.TaskListView.as_view(), name='task-list'),
     path('task/<pk>/toggle-bookmark', views.toggle_bookmark, name='task-bookmark'),
+    path('task/<pk>/', views.TaskDetailView.as_view(), name='task-detail'),
     path('bookmarks', views.BookmarkTaskListViewBySiteConf.as_view(), name='bookmarks'),
     path('search', views.TaskSearchView.as_view(), name='task-search'),
 

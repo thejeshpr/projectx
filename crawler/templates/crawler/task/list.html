@@ -23,7 +23,9 @@
           {% if task.data %}
             <code class="text-white">{{ task.data|linebreaks }}</code> <!-- Adjusted text color -->
           {% endif %}
-          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at }}</p> <!-- Adjusted text color -->
+          <p class="text-muted"><span class="badge bg-secondary">{{ task.site_conf }}</span> | {{ task.created_at|date:"SHORT_DATE_FORMAT"}} {{ task.created_at|time:"h:i a" }}
+          <a href="{% url 'crawler:task-detail' task.pk %}">view</a>
+          </p> <!-- Adjusted text color -->
       </div>
     </div>
 <!--    <br/>-->

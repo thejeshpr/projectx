@@ -1,0 +1,23 @@
+{% extends 'crawler/base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+
+  <br/>
+  <br/>
+
+    <div class="card bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">{{ task.name }}</h5>
+          <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+
+          {% if task.data %}
+            <code>{{ task.data|linebreaks }}</code>
+          {% endif %}
+      </div>
+    </div>
+
+
+{% endblock %}
+

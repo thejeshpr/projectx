@@ -624,10 +624,8 @@ class TaskSearchView(ListView):
         return context
 
 
-
-
-
-
-
-
-
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class TaskDetailView(DetailView):
+    model = Task
+    context_object_name = 'task'
+    template_name = 'crawler/task/detail.html'
