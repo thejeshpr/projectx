@@ -28,6 +28,22 @@
       </div>
     </div>
 
+  <br/>
+  <br/>
+
+    <div class="card bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">{{ task.name }}</h5>
+          <a href="{{ task.url }}" target="_blank">{{ task.url }}</a>
+
+          {% if task.data %}
+            <code>{{ task.data|linebreaks }}</code>
+          {% endif %}
+          <p class="text-muted">{{ task.created_at }}</p>
+<!--          <div id="qrcode"></div>-->
+      </div>
+    </div>
+
 
 {% endblock %}
 
@@ -35,6 +51,8 @@
 
 <script>
 $(document).ready(function(){
+    // var qrcode = new QRCode("qrcode", "{{ task.url }}");
+
     $(".bm-icon").click(function(){
 
       var id = $(this).attr("id").replace("star-", "");
