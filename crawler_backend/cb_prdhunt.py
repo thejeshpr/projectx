@@ -12,14 +12,25 @@ def scrape(obj: BaseParser):
     soup = WebClient.get_bs(base_url)
     extras = json.loads(obj.site_conf.extra_data_json)
 
-    divs = soup.find_all("div", {"class": "styles_item__Dk_nz my-2 flex flex-1 flex-row gap-2 py-2 sm:gap-4"})
+    divs = soup.find_all("div", {"class": "flex flex-1 flex-col"})
+
     for div in divs:
         a_list = div.find_all('a')
+
         if a_list:
-            a = a_list[1]
+            a = a_list[0]
+            url = a.get('href')
+            if url.startswith("/product"):
+                continue
+
+            if len(a_list) > 1:
+                data = a_list[1].text.strip()
+            else:
+                data = ""
+
             obj.create_task(
-                unique_key=a.get('href'),
+                unique_key=url,
                 name=a.text.strip(),
-                url=urllib.parse.urljoin(base_url, a['href'])
-                # data=data
+                url=urllib.parse.urljoin(base_url, url),
+                data=data
             )
